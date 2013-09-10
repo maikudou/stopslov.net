@@ -3,6 +3,31 @@ html
     head
         title Стоп-слов — нет!
         meta(http-equiv="Content-Type", content="text/html; charset=utf-8")
-        link(href='css/global.css', rel='stylesheet')
+        link(href='global.css', rel='stylesheet')
         script(type="text/javascript", src="global.js")
     body
+        .bContent
+            header.bHeader
+                h1.bHeader__eTitle Стоп-слов — нет
+                nav.bHeader__eMenu
+                    a.bHeader__eMenuItem(href="#") Войти
+                    | &nbsp;&nbsp;|&nbsp;&nbsp;
+                    a.bHeader__eMenuItem.bHeader__eMenuItem__mType_dropdown(href="#") Открыть список стоп-слов
+
+            nav.bContent__eMenu
+                a.bContent__eMenuItem.bContent__eMenuItem__mState_active(href="#") Маркер
+                a.bContent__eMenuItem(href="#") Про стоп-слова
+                a.bContent__eMenuItem(href="#") О сервисе
+            form.bContent__eForm
+                textarea.bContent__eFormMainInput
+                label.bContent__eFormHint Введите или скопируйте текст
+            .bContent__eOutput
+                .bContent__eOutputText Вывод
+
+
+        footer.bFooter
+            | Идея: 
+            a.bFooter__eLink(href="http://egerev.ru") Кирилл Егерев
+            |  |  Реализация: 
+            a.bFooter__eLink(href="https://github.com/maikudou") Михаил Лабанов
+
