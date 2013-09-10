@@ -12,5 +12,12 @@
   },
   "author": "Mikhail Labanov",
   "license": "Proprietary",
-  "gitHead": "c6be632409e0612b1ac7fcf1edece2ee5a3fe30d"
+  "gitHead": "c6be632409e0612b1ac7fcf1edece2ee5a3fe30d",
+  "devDependencies": {
+    "grunt": "~0.4.1",
+    "grunt-contrib-coffee": "~0.7.0",
+    "grunt-contrib-watch": "~0.5.3",
+    "grunt-contrib-less": "~0.7.0",
+    "grunt-contrib-jade": "~0.8.0"
+  }
 }
