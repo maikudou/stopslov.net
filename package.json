@@ -1,0 +1,16 @@
+{
+  "name": "stopslov.net",
+  "version": "0.0.1",
+  "description": "stopslov.net",
+  "main": "build/index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "ssh://git@bitbucket.org/maikudou/stopslov.net.git"
+  },
+  "author": "Mikhail Labanov",
+  "license": "Proprietary",
+  "gitHead": "c6be632409e0612b1ac7fcf1edece2ee5a3fe30d"
+}
