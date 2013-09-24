@@ -98,3 +98,8 @@ body {
   padding: 20px 40px;
   font-size: 12px;
 }
+.bStopWord {
+  background: yellow;
+  padding: 0 2px;
+  font-weight: bold;
+}
