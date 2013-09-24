@@ -3,15 +3,16 @@ module.exports = (grunt)->
     grunt.loadNpmTasks 'grunt-contrib-watch'
     grunt.loadNpmTasks 'grunt-contrib-jade'
     grunt.loadNpmTasks 'grunt-contrib-less'
+    grunt.loadNpmTasks 'grunt-contrib-concat'
 
     grunt.initConfig 
         coffee:
             compile:
                 files: [
                     expand: true
-                    cwd: 'coffee'
-                    src: ['code/**/*.coffee']
-                    dest: 'build/js'
+                    cwd: 'code'
+                    src: ['**/*.coffee']
+                    dest: 'code/js'
                     ext: '.js'
                 ]
 
@@ -27,6 +28,11 @@ module.exports = (grunt)->
                 files:
                     "build/global.css": "code/global.less"
 
+        concat:
+            production:
+                src: ['code/js/libs/*.js', 'code/js/*.js']
+                dest: 'build/global.js'
+
         watch:
             coffee:
                 files: ['code/**/*.coffee']
@@ -39,6 +45,10 @@ module.exports = (grunt)->
             less:
                 files: ['code/*.less']
                 tasks: ['less:compile']
+
+            concat:
+                files: ['code/**/*.js']
+                tasks: ['concat:production']
 
 
     grunt.registerTask 'default', 'watch'
