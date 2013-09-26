@@ -1,28 +1,33 @@
 !!!
 html
     head
-        title Стоп-слов — нет!
+        title Стоп-слов нет
         meta(http-equiv="Content-Type", content="text/html; charset=utf-8")
         link(href='global.css', rel='stylesheet')
         script(type="text/javascript", src="global.js")
     body
         .bContent
             header.bHeader
-                h1.bHeader__eTitle Стоп-слов — нет
+                h1.bHeader__eTitle Стоп-слов нет
                 nav.bHeader__eMenu
-                    a.bHeader__eMenuItem(href="#") Войти
-                    | &nbsp;&nbsp;|&nbsp;&nbsp;
-                    a.bHeader__eMenuItem.bHeader__eMenuItem__mType_dropdown(href="#") Открыть список стоп-слов
+                    a.bHeader__eMenuItem.bHeader__eMenuItem__mType_dropdown#listOpener(href="#") Открыть список стоп-слов
+            .bContent__eWordsList Слова
 
             nav.bContent__eMenu
                 a.bContent__eMenuItem.bContent__eMenuItem__mState_active(href="#") Маркер
                 a.bContent__eMenuItem(href="#") Про стоп-слова
                 a.bContent__eMenuItem(href="#") О сервисе
-            form.bContent__eForm#mainForm
-                textarea.bContent__eFormMainInput#mainInput
-                label.bContent__eFormHint Введите или скопируйте текст
-            .bContent__eOutput
-                .bContent__eOutputText
+            .bContent__eTab.bContent__eTab__mState_active
+                form.bContent__eForm#mainForm
+                    textarea.bContent__eFormMainInput#mainInput
+                    label.bContent__eFormHint Введите или скопируйте текст
+                .bContent__eOutput
+                    .bContent__eOutputText
+
+            .bContent__eTab
+                .bContent__eTabText Про стоп-слова
+            .bContent__eTab
+                .bContent__eTabText О сервисе
 
 
         footer.bFooter

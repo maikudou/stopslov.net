@@ -18,11 +18,11 @@
       var regexp;
       regexp = '(\\s?' + _.map(this.get('stopWords'), function(word) {
         return word.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/gi, "\\$&");
-      }).join('\\s|\\s?') + '\\s)';
-      this.set('regexp', new RegExp(regexp, 'gi'));
-      return console.log(this.get('regexp'));
+      }).join('[\\s\\.\\,\\;\\:—$]|\\s?') + '[\\s\\.\\,\\;\\:—$])';
+      return this.set('regexp', new RegExp(regexp, 'gi'));
     },
     processContent: function(content) {
+      content = content + ' ';
       content = content.replace(this.get('regexp'), '<span class="bStopWord">$1</span>');
       content = content.replace(/[\f\n\r]/gi, '<br/>');
       return this.output.update(content);
@@ -31,14 +31,45 @@
 
   SSN.Form = Backbone.View.extend({
     initialize: function() {
-      this.setElement($('#mainForm')[0]);
-      return this.$input = $('#mainInput', this.el);
+      this.setElement($('.bContent')[0]);
+      this.$input = $('#mainInput', this.el);
+      this.$menuItems = this.$el.find('.bContent__eMenuItem');
+      this.$tabs = this.$el.find('.bContent__eTab');
+      this.$listOpener = this.$el.find('#listOpener');
+      return this.$wordList = this.$el.find('.bContent__eWordsList');
     },
     events: {
-      'keyup #mainInput': 'changeContent'
+      'keyup #mainInput': 'changeContent',
+      'click .bContent__eMenuItem': 'switchTab',
+      'click #listOpener': 'toggleWords'
     },
     changeContent: function() {
       return this.trigger('change:content', this.$input.val());
+    },
+    switchTab: function(e) {
+      var $target, index;
+      $target = $(e.currentTarget);
+      index = this.$menuItems.index($target);
+      if ($target.hasClass('bContent__eMenuItem__mState_active')) {
+        return false;
+      }
+      this.$menuItems.removeClass('bContent__eMenuItem__mState_active');
+      $target.addClass('bContent__eMenuItem__mState_active');
+      this.$tabs.removeClass('bContent__eTab__mState_active');
+      this.$tabs.eq(index).addClass('bContent__eTab__mState_active');
+      console.log(index);
+      return false;
+    },
+    toggleWords: function(e) {
+      var $target;
+      $target = $(e.currentTarget);
+      this.$wordList.text(SSNWords.join(', ')).toggleClass('bContent__eWordsList__mState_open');
+      if (this.$wordList.hasClass('bContent__eWordsList__mState_open')) {
+        this.$listOpener.text('Закрыть список стоп-слов');
+      } else {
+        this.$listOpener.text('Открыть список стоп-слов');
+      }
+      return false;
     }
   });
 

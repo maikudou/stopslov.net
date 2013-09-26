@@ -18,14 +18,13 @@ SSN.App = Backbone.Model.extend
     buildRegexp: ->
         regexp = '(\\s?'+_.map(@get('stopWords'), (word)->
             return word.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/gi, "\\$&");
-        ).join('\\s|\\s?')+'\\s)'
+        ).join('[\\s\\.\\,\\;\\:—$]|\\s?')+'[\\s\\.\\,\\;\\:—$])'
 
         @set 'regexp', new RegExp(regexp, 'gi')
 
-        console.log(@get 'regexp')
-
 
     processContent: (content)->
+        content = content + ' ' #TODO DIRTY HACK
         content = content.replace(@get('regexp'), '<span class="bStopWord">$1</span>')
         content = content.replace(/[\f\n\r]/gi, '<br/>')
         @output.update content
@@ -33,14 +32,49 @@ SSN.App = Backbone.Model.extend
 
 SSN.Form = Backbone.View.extend
     initialize: -> 
-        @setElement $('#mainForm')[0]
+        @setElement $('.bContent')[0]
         @$input = $ '#mainInput', @el
+        @$menuItems = @$el.find('.bContent__eMenuItem')
+        @$tabs = @$el.find('.bContent__eTab')
+        @$listOpener = @$el.find('#listOpener')
+        @$wordList = @$el.find('.bContent__eWordsList')
 
     events: 
         'keyup #mainInput': 'changeContent'
+        'click .bContent__eMenuItem': 'switchTab'
+        'click #listOpener': 'toggleWords'
 
     changeContent: ->
         @trigger 'change:content', @$input.val()
+
+    switchTab: (e)->
+        $target = $(e.currentTarget)
+        
+        index = @$menuItems.index($target)
+        
+        return false if $target.hasClass('bContent__eMenuItem__mState_active')
+
+        @$menuItems.removeClass('bContent__eMenuItem__mState_active')
+        $target.addClass('bContent__eMenuItem__mState_active')
+
+        @$tabs.removeClass('bContent__eTab__mState_active')
+        @$tabs.eq(index).addClass('bContent__eTab__mState_active')
+
+        console.log(index)
+        
+        return false
+
+    toggleWords: (e)->
+        $target = $(e.currentTarget)
+
+        @$wordList.text(SSNWords.join(', ')).toggleClass('bContent__eWordsList__mState_open')
+
+        if @$wordList.hasClass('bContent__eWordsList__mState_open')
+            @$listOpener.text('Закрыть список стоп-слов')
+        else
+            @$listOpener.text('Открыть список стоп-слов')
+
+        return false
 
 
 SSN.Output = Backbone.View.extend

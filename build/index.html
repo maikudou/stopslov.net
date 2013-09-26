@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Стоп-слов — нет!</title>
+    <title>Стоп-слов нет</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <link href="global.css" rel="stylesheet">
     <script type="text/javascript" src="global.js"></script>
@@ -9,16 +9,25 @@
   <body>
     <div class="bContent">
       <header class="bHeader">
-        <h1 class="bHeader__eTitle">Стоп-слов — нет</h1>
-        <nav class="bHeader__eMenu"><a href="#" class="bHeader__eMenuItem">Войти</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="#" class="bHeader__eMenuItem bHeader__eMenuItem__mType_dropdown">Открыть список стоп-слов</a></nav>
+        <h1 class="bHeader__eTitle">Стоп-слов нет</h1>
+        <nav class="bHeader__eMenu"><a id="listOpener" href="#" class="bHeader__eMenuItem bHeader__eMenuItem__mType_dropdown">Открыть список стоп-слов</a></nav>
       </header>
+      <div class="bContent__eWordsList">Слова</div>
       <nav class="bContent__eMenu"><a href="#" class="bContent__eMenuItem bContent__eMenuItem__mState_active">Маркер</a><a href="#" class="bContent__eMenuItem">Про стоп-слова</a><a href="#" class="bContent__eMenuItem">О сервисе</a></nav>
-      <form id="mainForm" class="bContent__eForm">
-        <textarea id="mainInput" class="bContent__eFormMainInput"></textarea>
-        <label class="bContent__eFormHint">Введите или скопируйте текст</label>
-      </form>
-      <div class="bContent__eOutput">
-        <div class="bContent__eOutputText"></div>
+      <div class="bContent__eTab bContent__eTab__mState_active">
+        <form id="mainForm" class="bContent__eForm">
+          <textarea id="mainInput" class="bContent__eFormMainInput"></textarea>
+          <label class="bContent__eFormHint">Введите или скопируйте текст</label>
+        </form>
+        <div class="bContent__eOutput">
+          <div class="bContent__eOutputText"></div>
+        </div>
+      </div>
+      <div class="bContent__eTab">
+        <div class="bContent__eTabText">Про стоп-слова</div>
+      </div>
+      <div class="bContent__eTab">
+        <div class="bContent__eTabText">О сервисе</div>
       </div>
     </div>
     <footer class="bFooter">Идея: <a href="http://egerev.ru" class="bFooter__eLink">Кирилл Егерев</a> |  Реализация: <a href="https://github.com/maikudou" class="bFooter__eLink">Михаил Лабанов</a></footer>

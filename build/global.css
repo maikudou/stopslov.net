@@ -98,6 +98,25 @@ body {
   padding: 20px 40px;
   font-size: 12px;
 }
+.bContent__eTab {
+  display: none;
+}
+.bContent__eTabText {
+  padding: 30px 52px 52px 52px;
+  font-size: 12px;
+}
+.bContent__eTab__mState_active {
+  display: block;
+}
+.bContent__eWordsList {
+  display: none;
+  padding: 20px 52px;
+  font-size: 12px;
+  line-height: 14px;
+}
+.bContent__eWordsList__mState_open {
+  display: block;
+}
 .bStopWord {
   background: yellow;
   font-weight: bold;
