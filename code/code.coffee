@@ -3,7 +3,7 @@ window.app = {}
 
 SSN.App = Backbone.Model.extend
     defaults: 
-        stopWords: ['давай', 'в общем-то', 'премиальный']
+        stopWords: window.SSNWords
         regexp: //
 
     initialize: ->
@@ -16,9 +16,9 @@ SSN.App = Backbone.Model.extend
 
 
     buildRegexp: ->
-        regexp = '('+_.map(@get('stopWords'), (word)->
+        regexp = '(\\s?'+_.map(@get('stopWords'), (word)->
             return word.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/gi, "\\$&");
-        ).join('|')+')'
+        ).join('\\s|\\s?')+'\\s)'
 
         @set 'regexp', new RegExp(regexp, 'gi')
 
@@ -27,7 +27,9 @@ SSN.App = Backbone.Model.extend
 
     processContent: (content)->
         content = content.replace(@get('regexp'), '<span class="bStopWord">$1</span>')
+        content = content.replace(/[\f\n\r]/gi, '<br/>')
         @output.update content
+
 
 SSN.Form = Backbone.View.extend
     initialize: -> 

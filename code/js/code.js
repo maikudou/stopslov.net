@@ -5,7 +5,7 @@
 
   SSN.App = Backbone.Model.extend({
     defaults: {
-      stopWords: ['давай', 'в общем-то', 'премиальный'],
+      stopWords: window.SSNWords,
       regexp: /(?:)/
     },
     initialize: function() {
@@ -16,14 +16,15 @@
     },
     buildRegexp: function() {
       var regexp;
-      regexp = '(' + _.map(this.get('stopWords'), function(word) {
+      regexp = '(\\s?' + _.map(this.get('stopWords'), function(word) {
         return word.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/gi, "\\$&");
-      }).join('|') + ')';
+      }).join('\\s|\\s?') + '\\s)';
       this.set('regexp', new RegExp(regexp, 'gi'));
       return console.log(this.get('regexp'));
     },
     processContent: function(content) {
       content = content.replace(this.get('regexp'), '<span class="bStopWord">$1</span>');
+      content = content.replace(/[\f\n\r]/gi, '<br/>');
       return this.output.update(content);
     }
   });
