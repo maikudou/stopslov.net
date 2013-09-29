@@ -5,11 +5,21 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <link href="global.css" rel="stylesheet">
     <script type="text/javascript" src="global.js"></script>
+    <script>
+      (function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=487878381246644";
+        fjs.parentNode.insertBefore(js, fjs);
+      }(document, 'script', 'facebook-jssdk'));
+    </script>
   </head>
   <body>
     <div class="bContent">
       <header class="bHeader">
         <h1 class="bHeader__eTitle">Стоп-слов нет</h1>
+        <div data-href="https://www.facebook.com/stopslov.net" data-width="450" data-show-faces="false" data-send="false" class="fb-like bHeader__eFBLike"></div>
         <nav class="bHeader__eMenu"><a id="listOpener" href="#" class="bHeader__eMenuItem bHeader__eMenuItem__mType_dropdown">Открыть список стоп-слов</a></nav>
       </header>
       <div class="bContent__eWordsList">Слова</div>

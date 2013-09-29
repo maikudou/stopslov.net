@@ -5,10 +5,19 @@ html
         meta(http-equiv="Content-Type", content="text/html; charset=utf-8")
         link(href='global.css', rel='stylesheet')
         script(type="text/javascript", src="global.js")
+        script
+            (function(d, s, id) {
+              var js, fjs = d.getElementsByTagName(s)[0];
+              if (d.getElementById(id)) return;
+              js = d.createElement(s); js.id = id;
+              js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=487878381246644";
+              fjs.parentNode.insertBefore(js, fjs);
+            }(document, 'script', 'facebook-jssdk'));
     body
         .bContent
             header.bHeader
                 h1.bHeader__eTitle Стоп-слов нет
+                .fb-like.bHeader__eFBLike(data-href="https://www.facebook.com/stopslov.net", data-width="450", data-show-faces="false", data-send="false")
                 nav.bHeader__eMenu
                     a.bHeader__eMenuItem.bHeader__eMenuItem__mType_dropdown#listOpener(href="#") Открыть список стоп-слов
             .bContent__eWordsList Слова

@@ -25,6 +25,12 @@ body {
   font-size: 30px;
   font-weight: normal;
 }
+.bHeader__eFBLike {
+  float: left;
+  line-height: 90px;
+  padding-left: 26px;
+  height: 72px;
+}
 .bHeader__eMenu {
   text-align: right;
   line-height: 74px;
