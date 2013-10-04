@@ -54,6 +54,12 @@ body {
   padding: 0 0 0 52px;
   line-height: 27px;
   clear: both;
+  position: relative;
+}
+.bFooter__eMetrika {
+  position: absolute;
+  top: 5px;
+  right: 52px;
 }
 .bContent {
   min-height: 100%;

@@ -5,7 +5,7 @@ html
         meta(http-equiv="Content-Type", content="text/html; charset=utf-8")
         link(href='global.css', rel='stylesheet')
         script(type="text/javascript", src="global.js")
-        script
+        script.
             (function(d, s, id) {
               var js, fjs = d.getElementsByTagName(s)[0];
               if (d.getElementById(id)) return;
@@ -48,4 +48,52 @@ html
             a.bFooter__eLink(href="http://egerev.ru") Кирилл Егерев
             |  |  Реализация: 
             a.bFooter__eLink(href="https://github.com/maikudou") Михаил Лабанов
+
+            
+            // Yandex.Metrika informer
+            
+            a.bFooter__eMetrika(
+                href="http://metrika.yandex.ru/stat/?id=22464010&from=informer",
+                target="_blank",
+                rel="nofollow")
+                img(
+                    src="//bs.yandex.ru/informer/22464010/1_0_FFFFFFFF_FFFFFFFF_0_uniques",
+                    style="width:80px; height:15px; border:0;",
+                    alt="Яндекс.Метрика",
+                    title="Яндекс.Метрика: данные за сегодня (уникальные посетители)",
+                    onclick="try{Ya.Metrika.informer({i:this,id:22464010,lang:'ru'});return false}catch(e){}")
+
+            // /Yandex.Metrika informer
+
+            // Yandex.Metrika counter
+            script.
+                (function (d, w, c) {
+                   (w[c] = w[c] || []).push(function() {
+                       try {
+                           w.yaCounter22464010 = new Ya.Metrika({id:22464010,
+                                   webvisor:true,
+                                   clickmap:true,
+                                   trackLinks:true,
+                                   accurateTrackBounce:true});
+                       } catch(e) { }
+                   });
+
+                   var n = d.getElementsByTagName("script")[0],
+                       s = d.createElement("script"),
+                       f = function () { n.parentNode.insertBefore(s, n); };
+                   s.type = "text/javascript";
+                   s.async = true;
+                   s.src = (d.location.protocol == "https:" ? "https:" : "http:") + "//mc.yandex.ru/metrika/watch.js";
+
+                   if (w.opera == "[object Opera]") {
+                       d.addEventListener("DOMContentLoaded", f, false);
+                   } else { f(); }
+
+                })(document, window, "yandex_metrika_callbacks");
+            
+            noscript
+                div
+                    img(src="//mc.yandex.ru/watch/22464010", style="position:absolute; left:-9999px;", alt="")
+
+            // /Yandex.Metrika counter
 
