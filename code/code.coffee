@@ -16,16 +16,18 @@ SSN.App = Backbone.Model.extend
 
 
     buildRegexp: ->
-        regexp = '(\\s?'+_.map(@get('stopWords'), (word)->
+        regexp = '([^а-яА-Я\\-]|\\s)('+_.map(@get('stopWords'), (word)->
             return word.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/gi, "\\$&");
-        ).join('[\\s\\.\\,\\;\\:—$]|\\s?')+'[\\s\\.\\,\\;\\:—$])'
+        ).join('|')+')([^а-яА-Я\\-]|\\s)'
 
         @set 'regexp', new RegExp(regexp, 'gi')
+
+        console.log(@get('regexp'))
 
 
     processContent: (content)->
         content = content + ' ' #TODO DIRTY HACK
-        content = content.replace(@get('regexp'), '<span class="bStopWord">$1</span>')
+        content = content.replace(@get('regexp'), '$1<span class="bStopWord">$2</span>$3')
         content = content.replace(/[\f\n\r]/gi, '<br/>')
         @output.update content
 

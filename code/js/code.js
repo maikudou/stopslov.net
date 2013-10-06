@@ -16,14 +16,15 @@
     },
     buildRegexp: function() {
       var regexp;
-      regexp = '(\\s?' + _.map(this.get('stopWords'), function(word) {
+      regexp = '([^а-яА-Я\\-]|\\s)(' + _.map(this.get('stopWords'), function(word) {
         return word.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/gi, "\\$&");
-      }).join('[\\s\\.\\,\\;\\:—$]|\\s?') + '[\\s\\.\\,\\;\\:—$])';
-      return this.set('regexp', new RegExp(regexp, 'gi'));
+      }).join('|') + ')([^а-яА-Я\\-]|\\s)';
+      this.set('regexp', new RegExp(regexp, 'gi'));
+      return console.log(this.get('regexp'));
     },
     processContent: function(content) {
       content = content + ' ';
-      content = content.replace(this.get('regexp'), '<span class="bStopWord">$1</span>');
+      content = content.replace(this.get('regexp'), '$1<span class="bStopWord">$2</span>$3');
       content = content.replace(/[\f\n\r]/gi, '<br/>');
       return this.output.update(content);
     }
