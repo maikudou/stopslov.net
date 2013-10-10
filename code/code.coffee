@@ -24,6 +24,15 @@ SSN.App = Backbone.Model.extend
 
         console.log(@get('regexp'))
 
+    includeWords: (words)->
+        if _.isString(words) or _.isArray(words)
+            @set 'words', _.union @get('stopWords'), words
+            @buildRegexp()
+
+    excludeWords: (words)->
+        if _.isString(words) or _.isArray(words)
+            @set 'words', _.difference @get('stopWords'), words
+            @buildRegexp()
 
     processContent: (content)->
         content = ' ' + content + ' ' #TODO DIRTY HACK
