@@ -189,10 +189,18 @@ window.SSNWords = [
       regexp: /(?:)/
     },
     initialize: function() {
-      this.form = new SSN.Form();
+      this.form = new SSN.Form({
+        model: this
+      });
       this.output = new SSN.Output();
+      this.form.model = this;
+      if (localStorage.getItem('userStopWords') != null) {
+        this.set('stopWords', JSON.parse(localStorage.getItem('userStopWords')));
+      }
       this.buildRegexp();
-      return this.listenTo(this.form, 'change:content', this.processContent);
+      this.listenTo(this.form, 'change:content', this.processContent);
+      this.listenTo(this.form, 'change:stopWords', this.changeWords);
+      return this.on('change:stopWords', this.save);
     },
     buildRegexp: function() {
       var regexp;
@@ -202,6 +210,27 @@ window.SSNWords = [
       this.set('regexp', new RegExp(regexp, 'gi'));
       return console.log(this.get('regexp'));
     },
+    changeWords: function(changeStack) {
+      console.log(changeStack);
+      if (changeStack.removed != null) {
+        this.excludeWords(changeStack.removed);
+      }
+      if (changeStack.added != null) {
+        return this.includeWords(changeStack.added);
+      }
+    },
+    includeWords: function(words) {
+      if (_.isString(words) || _.isArray(words)) {
+        this.set('stopWords', _.union(this.get('stopWords'), words));
+        return this.buildRegexp();
+      }
+    },
+    excludeWords: function(words) {
+      if (_.isString(words) || _.isArray(words)) {
+        this.set('stopWords', _.difference(this.get('stopWords'), words));
+        return this.buildRegexp();
+      }
+    },
     processContent: function(content) {
       content = ' ' + content + ' ';
       content = content.replace(/[\f\n\r]/gi, '$& ');
@@ -209,6 +238,9 @@ window.SSNWords = [
       content = content.replace(/([\f\n\r]) /gi, '$&');
       content = content.replace(/[\f\n\r]/gi, '<br/>');
       return this.output.update(content);
+    },
+    save: function() {
+      return localStorage.setItem('userStopWords', JSON.stringify(this.get('stopWords')));
     }
   });
 
@@ -219,12 +251,15 @@ window.SSNWords = [
       this.$menuItems = this.$el.find('.bContent__eMenuItem');
       this.$tabs = this.$el.find('.bContent__eTab');
       this.$listOpener = this.$el.find('#listOpener');
-      return this.$wordList = this.$el.find('.bContent__eWordsList');
+      this.$wordList = this.$el.find('.bContent__eWordsList');
+      this.listenTo(this.model, 'change:stopWords', this.renderWords);
+      return this.listenTo(this.model, 'change:regexp', this.changeContent);
     },
     events: {
       'keyup #mainInput': 'changeContent',
       'click .bContent__eMenuItem': 'switchTab',
-      'click #listOpener': 'toggleWords'
+      'click #listOpener': 'toggleWords',
+      'click .jsWord': 'removeWord'
     },
     changeContent: function() {
       return this.trigger('change:content', this.$input.val());
@@ -246,13 +281,42 @@ window.SSNWords = [
     toggleWords: function(e) {
       var $target;
       $target = $(e.currentTarget);
-      this.$wordList.text(SSNWords.join(', ')).toggleClass('bContent__eWordsList__mState_open');
+      this.renderWords();
+      this.$wordList.toggleClass('bContent__eWordsList__mState_open');
       if (this.$wordList.hasClass('bContent__eWordsList__mState_open')) {
         this.$listOpener.text('Закрыть список стоп-слов');
       } else {
         this.$listOpener.text('Открыть список стоп-слов');
       }
       return false;
+    },
+    renderWords: function() {
+      var words;
+      words = _.map(this.model.get('stopWords'), function(word) {
+        return "<span class=\"bContent__eWordsListItem jsWord\">" + word + "</span>";
+      });
+      this.$wordList.html(words.join('') + '<input type="text" placeholder="+" class="bContent__eWordsListInput jsWordAdd">');
+      return $('.jsWordAdd').unbind('change').bind('change', _.bind(this.addWord, this));
+    },
+    addWord: function(e) {
+      var newWord;
+      newWord = $(e.currentTarget).val().replace(/^\s\s*/, '').replace(/\s\s*$/, '');
+      newWord = newWord.slice(0, 1).toUpperCase() + newWord.slice(1).toLowerCase();
+      if (newWord.length > 0) {
+        this.trigger('change:stopWords', {
+          added: [newWord]
+        });
+      }
+      return $(e.currentTarget).val('');
+    },
+    removeWord: function(e) {
+      var _this = this;
+      $(e.currentTarget).css('transform', 'scaleX(0)');
+      return setTimeout(function() {
+        return _this.trigger('change:stopWords', {
+          removed: [$(e.currentTarget).text()]
+        });
+      }, 500);
     }
   });
 
@@ -269,8 +333,7 @@ window.SSNWords = [
   });
 
   $(function() {
-    var app;
-    return app = new SSN.App();
+    return window.app = new SSN.App();
   });
 
 }).call(this);

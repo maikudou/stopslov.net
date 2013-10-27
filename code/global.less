@@ -139,6 +139,46 @@ body {
         &__mState_open {
             display: block;
         }
+        &Item {
+            border: 1px solid #C2C2C2;
+            border-radius: 4px 4px 4px 4px;
+            cursor: pointer;
+            display: inline-block;
+            margin: 4px 8px 4px 0;
+            padding: 1px 4px;
+            transition: 0.4s all;
+
+            &:hover {
+                background-color: #fff0f0;
+            }
+            &:hover:after {
+                content: "×";
+                position: relative;
+                padding-left: 4px;
+                bottom: -1px;
+                color: #977;
+                font-weight: bold;
+            }
+        }
+        &Input {
+            background: none repeat scroll 0 0 rgba(0, 0, 0, 0);
+            border: 0;
+            color: #0a0;
+            font-weight: bold;
+            cursor: pointer;
+            display: inline-block;
+            font-family: 'Courier New',serif;
+            font-size: 12px;
+            line-height: 14px;
+            margin: 4px 8px 4px 0;
+            padding: 2px 5px;
+
+            &:focus {
+                cursor: auto;
+                color: #000;
+                font-weight: normal;
+            }
+        }
     }
 }
 .bStopWord {
