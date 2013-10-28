@@ -115,7 +115,7 @@ SSN.Form = Backbone.View.extend
         words = _.map @model.get('stopWords'), (word)->
             return "<span class=\"bContent__eWordsListItem jsWord\">#{word}</span>"
 
-        @$wordList.html words.join('') + '<input type="text" placeholder="+" class="bContent__eWordsListInput jsWordAdd">'
+        @$wordList.html words.join(', ') + '<input type="text" placeholder="+" class="bContent__eWordsListInput jsWordAdd">'
 
         $('.jsWordAdd').unbind('change').bind 'change', _.bind(@addWord, @)
 

@@ -60,6 +60,8 @@ body {
   position: absolute;
   top: 5px;
   right: 52px;
+  height: 23px;
+  line-height: 22px;
 }
 .bContent {
   min-height: 100%;
@@ -78,10 +80,12 @@ body {
   text-decoration: none;
   cursor: default;
 }
-.bContent__eForm {
+.bContent__eColumn {
   float: left;
-  box-sizing: border-box;
   width: 50%;
+}
+.bContent__eForm {
+  box-sizing: border-box;
   padding: 20px 5px 20px 44px;
 }
 .bContent__eFormMainInput {
@@ -97,13 +101,10 @@ body {
   color: #585858;
 }
 .bContent__eOutput {
-  float: left;
   box-sizing: border-box;
-  width: 50%;
   padding: 20px 44px 20px 5px;
 }
 .bContent__eOutputText {
-  width: 100%;
   min-height: 130px;
   background: #f5f5f5;
   box-sizing: border-box;
@@ -123,31 +124,40 @@ body {
 .bContent__eWordsList {
   display: none;
   padding: 20px 52px;
-  font-size: 12px;
+  font-size: 0px;
   line-height: 14px;
 }
 .bContent__eWordsList__mState_open {
   display: block;
 }
 .bContent__eWordsListItem {
-  border: 1px solid #C2C2C2;
-  border-radius: 4px 4px 4px 4px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
   cursor: pointer;
   display: inline-block;
-  margin: 4px 8px 4px 0;
+  margin: 4px 18px 4px 0;
   padding: 1px 4px;
-  transition: 0.4s all;
+  transition: transform 0.4s;
+  position: relative;
+  font-size: 12px;
+  line-height: 14px;
 }
 .bContent__eWordsListItem:hover {
-  background-color: #fff0f0;
+  background-color: #fff8f8;
+  border-color: #cc8888;
+  margin-right: 8px;
+  padding-right: 14px;
 }
 .bContent__eWordsListItem:hover:after {
-  content: "×";
-  position: relative;
-  padding-left: 4px;
   bottom: -1px;
-  color: #977;
+  color: #bb7777;
+  content: "×";
   font-weight: bold;
+  line-height: 14px;
+  padding: 1px 4px;
+  position: absolute;
+  right: 0;
+  top: 1px;
 }
 .bContent__eWordsListInput {
   background: none repeat scroll 0 0 rgba(0, 0, 0, 0);
@@ -161,6 +171,8 @@ body {
   line-height: 14px;
   margin: 4px 8px 4px 0;
   padding: 2px 5px;
+  box-shadow: none;
+  outline: 0;
 }
 .bContent__eWordsListInput:focus {
   cursor: auto;

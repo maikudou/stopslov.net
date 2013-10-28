@@ -295,7 +295,7 @@ window.SSNWords = [
       words = _.map(this.model.get('stopWords'), function(word) {
         return "<span class=\"bContent__eWordsListItem jsWord\">" + word + "</span>";
       });
-      this.$wordList.html(words.join('') + '<input type="text" placeholder="+" class="bContent__eWordsListInput jsWordAdd">');
+      this.$wordList.html(words.join(', ') + '<input type="text" placeholder="+" class="bContent__eWordsListInput jsWordAdd">');
       return $('.jsWordAdd').unbind('change').bind('change', _.bind(this.addWord, this));
     },
     addWord: function(e) {
