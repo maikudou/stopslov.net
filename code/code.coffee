@@ -59,6 +59,13 @@ SSN.App = Backbone.Model.extend
     save: ->
         localStorage.setItem 'userStopWords', JSON.stringify @get('stopWords')
 
+    getTransitionEventsString: ->
+        if typeof window.ontransitionend is 'object' and typeof window.onwebkittransitionend is 'object'
+            return 'transitionend oTransitionEnd otransitionend MSTransitionEnd'
+
+        else
+            return 'transitionend webkitTransitionEnd oTransitionEnd otransitionend MSTransitionEnd'
+
 
 SSN.Form = Backbone.View.extend
     initialize: -> 
@@ -127,10 +134,12 @@ SSN.Form = Backbone.View.extend
         $(e.currentTarget).val('')
 
     removeWord: (e)->
-        $(e.currentTarget).css('transform', 'scaleX(0)')
-        setTimeout =>               #TODO normalize animation
-            @trigger 'change:stopWords', {removed: [$(e.currentTarget).text()]}
-        , 500
+        $target = $(e.currentTarget)
+        $target.addClass('mHide')
+
+        $target.one @model.getTransitionEventsString(), =>
+            @trigger 'change:stopWords', 
+                removed: [$target.text()]
 
 
 SSN.Output = Backbone.View.extend

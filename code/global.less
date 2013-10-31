@@ -152,6 +152,8 @@ body {
             display: inline-block;
             margin: 4px 18px 4px 0;
             padding: 1px 4px;
+            -webkit-transition: -webkit-transform 0.4s;
+            -moz-transition: -moz-transform 0.4s;
             transition: transform 0.4s;
             position: relative;
             font-size: 12px;
@@ -173,6 +175,12 @@ body {
                 position: absolute;
                 right: 0;
                 top: 1px;
+            }
+
+            &.mHide {
+                -webkit-transform: scaleX(0);
+                -moz-transform: scaleX(0);
+                transform: scaleX(0);
             }
         }
         &Input {

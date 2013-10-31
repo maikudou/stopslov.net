@@ -61,6 +61,13 @@
     },
     save: function() {
       return localStorage.setItem('userStopWords', JSON.stringify(this.get('stopWords')));
+    },
+    getTransitionEventsString: function() {
+      if (typeof window.ontransitionend === 'object' && typeof window.onwebkittransitionend === 'object') {
+        return 'transitionend oTransitionEnd otransitionend MSTransitionEnd';
+      } else {
+        return 'transitionend webkitTransitionEnd oTransitionEnd otransitionend MSTransitionEnd';
+      }
     }
   });
 
@@ -130,13 +137,15 @@
       return $(e.currentTarget).val('');
     },
     removeWord: function(e) {
-      var _this = this;
-      $(e.currentTarget).css('transform', 'scaleX(0)');
-      return setTimeout(function() {
+      var $target,
+        _this = this;
+      $target = $(e.currentTarget);
+      $target.addClass('mHide');
+      return $target.one(this.model.getTransitionEventsString(), function() {
         return _this.trigger('change:stopWords', {
-          removed: [$(e.currentTarget).text()]
+          removed: [$target.text()]
         });
-      }, 500);
+      });
     }
   });
 
