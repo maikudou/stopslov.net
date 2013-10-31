@@ -51,24 +51,30 @@ body {
         }
     }
 }
+
+@footer_height: 28px;
+@footer_line_height: @footer_height - 1;
+
 .bFooter {
-    height: 28px;
+    height: @footer_height;
     border-top: 1px solid rgb(229,229,229);
     background: rgb(241,241,241);
     font-size: 12px;
     padding: 0 0 0 52px;
-    line-height: 27px;
+    line-height: @footer_line_height;
     clear: both;
     position: relative;
     &__eMetrika {
         position: absolute;
         top: 5px;
         right: 52px;
+        height: @footer_height - 5;
+        line-height: @footer_line_height - 5;
     }
 }
 .bContent {
     min-height: 100%;
-    margin-bottom: -29px;
+    margin-bottom: -@footer_height - 1;
     &__eMenu {
         margin: 40px 0 0 52px;
         &Item {
@@ -83,10 +89,13 @@ body {
         }
     }
 
-    &__eForm {
+    &__eColumn {
         float: left;
-        box-sizing: border-box;
         width: 50%;
+    }
+
+    &__eForm {
+        box-sizing: border-box;
         padding: 20px 5px 20px 44px;
 
         &MainInput {
@@ -105,12 +114,9 @@ body {
     }
 
     &__eOutput {
-        float: left;
         box-sizing: border-box;
-        width: 50%;
         padding: 20px 44px 20px 5px;
         &Text {
-            width: 100%;
             min-height: 130px;
             background: rgb(245, 245, 245);
             box-sizing: border-box;
@@ -133,11 +139,62 @@ body {
     &__eWordsList {
         display: none;
         padding: 20px 52px;
-        font-size: 12px;
+        font-size: 0px;
         line-height: 14px;
 
         &__mState_open {
             display: block;
+        }
+        &Item {
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            cursor: pointer;
+            display: inline-block;
+            margin: 4px 18px 4px 0;
+            padding: 1px 4px;
+            transition: transform 0.4s;
+            position: relative;
+            font-size: 12px;
+            line-height: 14px;
+
+            &:hover {
+                background-color: #fff8f8;
+                border-color: #cc8888;
+                margin-right: 8px;
+                padding-right: 14px;
+            }
+            &:hover:after {
+                bottom: -1px;
+                color: #bb7777;
+                content: "×";
+                font-weight: bold;
+                line-height: 14px;
+                padding: 1px 4px;
+                position: absolute;
+                right: 0;
+                top: 1px;
+            }
+        }
+        &Input {
+            background: none repeat scroll 0 0 rgba(0, 0, 0, 0);
+            border: 0;
+            color: #0a0;
+            font-weight: bold;
+            cursor: pointer;
+            display: inline-block;
+            font-family: 'Courier New',serif;
+            font-size: 12px;
+            line-height: 14px;
+            margin: 4px 8px 4px 0;
+            padding: 2px 5px;
+            box-shadow: none;
+            outline: 0;
+
+            &:focus {
+                cursor: auto;
+                color: #000;
+                font-weight: normal;
+            }
         }
     }
 }
