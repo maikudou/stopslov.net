@@ -15,6 +15,14 @@ module.exports = (grunt)->
                     dest: 'code/js'
                     ext: '.js'
                 ]
+            backend:
+                files: [
+                    expand: true
+                    cwd: 'backend'
+                    src: ['**/*.coffee']
+                    dest: 'backend'
+                    ext: '.js'
+                ]
 
         jade:
             compile:
