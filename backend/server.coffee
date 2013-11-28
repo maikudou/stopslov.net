@@ -10,6 +10,7 @@ class controller
     routes:
         "/": "home"
         "/api/": "home"
+        "/TO/": 'to'
 
     constructor: ->
         _.extend @, Backbone.Events
@@ -56,6 +57,9 @@ class controller
                 'Content-Type': 'text/html'
 
             body: '<h1>404 Not found</h1>'
+
+    to: ->
+
 
 
 new controller()

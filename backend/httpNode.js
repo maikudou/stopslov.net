@@ -71,6 +71,12 @@
     initialize: function() {
       return this.on('add', function(model) {
         var _this = this;
+        model.set('timeout', setTimeout(function() {
+          return _this.response(model, {
+            code: 502,
+            body: '{"success": false, "error": 502}'
+          });
+        }, 30000));
         return model.onSendEmpty(function() {
           return _this.response(model, {
             code: 200
@@ -83,6 +89,7 @@
       if (params == null) {
         params = {};
       }
+      clearTimeout(model.get('timeout'));
       response = model.get('response');
       if (params.code) {
         if (!params.headers) {

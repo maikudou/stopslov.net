@@ -14,7 +14,8 @@
   controller = (function() {
     controller.prototype.routes = {
       "/": "home",
-      "/api/": "home"
+      "/api/": "home",
+      "/TO/": 'to'
     };
 
     function controller() {
@@ -72,6 +73,8 @@
         body: '<h1>404 Not found</h1>'
       });
     };
+
+    controller.prototype.to = function() {};
 
     return controller;
 

@@ -57,11 +57,21 @@ Requests = Backbone.Collection.extend
 
     initialize: ->
         @on 'add', (model)->
+            #Ставим таймаут в пол-минуты
+            model.set 'timeout', setTimeout =>
+                @response model,
+                    code: 502
+                    body: '{"success": false, "error": 502}'
+
+            , 30000
+
             model.onSendEmpty =>
                 @response model, {code: 200}
 
     response: (model, params={})->
-        response = model.get('response')
+        clearTimeout model.get 'timeout'
+        response = model.get 'response'
+
         if params.code
             params.headers = {} unless params.headers
             response.writeHead params.code, _.defaults( params.headers, model.getCrossDomainJSONHeaders() )
