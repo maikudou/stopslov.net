@@ -31,7 +31,7 @@ module.exports = (grunt)->
         concat:
             production:
                 separator: '\n'
-                src: ['code/js/libs/jquery.js', 'code/js/libs/underscore.js', 'code/js/libs/backbone.js', 'code/js/words.js', 'code/js/code.js']
+                src: ['code/js/libs/jquery.js', 'code/js/libs/underscore.js', 'code/js/libs/backbone.js', 'code/js/words.js', 'code/js/code.js', 'code/js/analytics.js']
                 dest: 'build/global.js'
 
         watch:
@@ -53,4 +53,5 @@ module.exports = (grunt)->
 
 
     grunt.registerTask 'default', 'watch'
+    grunt.registerTask 'build', ['coffee', 'jade', 'less', 'concat']
             
