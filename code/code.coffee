@@ -1,4 +1,4 @@
-window.SSN = {}
+window.SSN = {} unless SSN?
 window.app = {}
 
 SSN.App = Backbone.Model.extend
@@ -81,29 +81,19 @@ SSN.Form = Backbone.View.extend
 
     events: 
         'keyup #mainInput': 'changeContent'
-        'click .bContent__eMenuItem': 'switchTab'
         'click #listOpener': 'toggleWords'
         'click .jsWord': 'removeWord'
 
     changeContent: ->
         @trigger 'change:content', @$input.val()
 
-    switchTab: (e)->
-        $target = $(e.currentTarget)
-        
-        index = @$menuItems.index($target)
-        
-        return false if $target.hasClass('bContent__eMenuItem__mState_active')
+    selectTab: (tabName)->
+        index = @$tabs.closest('#'+tabName).index('.bContent__eTab')
+        @$tabs.removeClass('bContent__eTab__mState_active')
+        @$tabs.closest('#'+tabName).addClass('bContent__eTab__mState_active')
 
         @$menuItems.removeClass('bContent__eMenuItem__mState_active')
-        $target.addClass('bContent__eMenuItem__mState_active')
-
-        @$tabs.removeClass('bContent__eTab__mState_active')
-        @$tabs.eq(index).addClass('bContent__eTab__mState_active')
-
-        console.log(index)
-        
-        return false
+        @$menuItems.eq(index).addClass('bContent__eMenuItem__mState_active')
 
     toggleWords: (e)->
         $target = $(e.currentTarget)
@@ -113,8 +103,19 @@ SSN.Form = Backbone.View.extend
 
         if @$wordList.hasClass('bContent__eWordsList__mState_open')
             @$listOpener.text('Закрыть список стоп-слов')
+
+            SSN.Analytics.trackEvent
+                category: 'UI'
+                action: 'open'
+                label: 'StopList'
+
         else
             @$listOpener.text('Открыть список стоп-слов')
+
+            SSN.Analytics.trackEvent
+                category: 'UI'
+                action: 'close'
+                label: 'StopList'
 
         return false
 
@@ -133,6 +134,11 @@ SSN.Form = Backbone.View.extend
         @trigger 'change:stopWords', {added: [newWord]} if newWord.length > 0
         $(e.currentTarget).val('')
 
+        SSN.Analytics.trackEvent
+            category: 'Words'
+            action: 'add'
+            value: newWord
+
     removeWord: (e)->
         $target = $(e.currentTarget)
         $target.addClass('mHide')
@@ -140,6 +146,11 @@ SSN.Form = Backbone.View.extend
         $target.one @model.getTransitionEventsString(), =>
             @trigger 'change:stopWords', 
                 removed: [$target.text()]
+
+        SSN.Analytics.trackEvent
+            category: 'Words'
+            action: 'remove'
+            value: $target.text()
 
 
 SSN.Output = Backbone.View.extend
@@ -152,5 +163,23 @@ SSN.Output = Backbone.View.extend
     update: (content)->
         @$el.html(content)
 
+SSN.Router = Backbone.Router.extend
+    routes:
+        '': 'ssnForm'
+        '/': 'ssnForm'
+        'about/words/': 'aboutWords'
+        'about/service/': 'aboutService'
+
+    ssnForm: ->
+        app.form.selectTab('ssnForm')
+
+    aboutWords: ->
+        app.form.selectTab('aboutWords')
+
+    aboutService: ->
+        app.form.selectTab('aboutService')
+
 $ ->
     window.app = new SSN.App()
+    window.router = new SSN.Router()
+    Backbone.history.start()

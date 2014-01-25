@@ -1,6 +1,6 @@
 {
   "name": "stopslov.net",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "stopslov.net",
   "main": "build/index.html",
   "scripts": {

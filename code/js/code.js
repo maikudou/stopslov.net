@@ -1,5 +1,7 @@
 (function() {
-  window.SSN = {};
+  if (typeof SSN === "undefined" || SSN === null) {
+    window.SSN = {};
+  }
 
   window.app = {};
 
@@ -84,26 +86,19 @@
     },
     events: {
       'keyup #mainInput': 'changeContent',
-      'click .bContent__eMenuItem': 'switchTab',
       'click #listOpener': 'toggleWords',
       'click .jsWord': 'removeWord'
     },
     changeContent: function() {
       return this.trigger('change:content', this.$input.val());
     },
-    switchTab: function(e) {
-      var $target, index;
-      $target = $(e.currentTarget);
-      index = this.$menuItems.index($target);
-      if ($target.hasClass('bContent__eMenuItem__mState_active')) {
-        return false;
-      }
-      this.$menuItems.removeClass('bContent__eMenuItem__mState_active');
-      $target.addClass('bContent__eMenuItem__mState_active');
+    selectTab: function(tabName) {
+      var index;
+      index = this.$tabs.closest('#' + tabName).index('.bContent__eTab');
       this.$tabs.removeClass('bContent__eTab__mState_active');
-      this.$tabs.eq(index).addClass('bContent__eTab__mState_active');
-      console.log(index);
-      return false;
+      this.$tabs.closest('#' + tabName).addClass('bContent__eTab__mState_active');
+      this.$menuItems.removeClass('bContent__eMenuItem__mState_active');
+      return this.$menuItems.eq(index).addClass('bContent__eMenuItem__mState_active');
     },
     toggleWords: function(e) {
       var $target;
@@ -112,8 +107,18 @@
       this.$wordList.toggleClass('bContent__eWordsList__mState_open');
       if (this.$wordList.hasClass('bContent__eWordsList__mState_open')) {
         this.$listOpener.text('Закрыть список стоп-слов');
+        SSN.Analytics.trackEvent({
+          category: 'UI',
+          action: 'open',
+          label: 'StopList'
+        });
       } else {
         this.$listOpener.text('Открыть список стоп-слов');
+        SSN.Analytics.trackEvent({
+          category: 'UI',
+          action: 'close',
+          label: 'StopList'
+        });
       }
       return false;
     },
@@ -134,17 +139,27 @@
           added: [newWord]
         });
       }
-      return $(e.currentTarget).val('');
+      $(e.currentTarget).val('');
+      return SSN.Analytics.trackEvent({
+        category: 'Words',
+        action: 'add',
+        value: newWord
+      });
     },
     removeWord: function(e) {
       var $target,
         _this = this;
       $target = $(e.currentTarget);
       $target.addClass('mHide');
-      return $target.one(this.model.getTransitionEventsString(), function() {
+      $target.one(this.model.getTransitionEventsString(), function() {
         return _this.trigger('change:stopWords', {
           removed: [$target.text()]
         });
+      });
+      return SSN.Analytics.trackEvent({
+        category: 'Words',
+        action: 'remove',
+        value: $target.text()
       });
     }
   });
@@ -161,8 +176,28 @@
     }
   });
 
+  SSN.Router = Backbone.Router.extend({
+    routes: {
+      '': 'ssnForm',
+      '/': 'ssnForm',
+      'about/words/': 'aboutWords',
+      'about/service/': 'aboutService'
+    },
+    ssnForm: function() {
+      return app.form.selectTab('ssnForm');
+    },
+    aboutWords: function() {
+      return app.form.selectTab('aboutWords');
+    },
+    aboutService: function() {
+      return app.form.selectTab('aboutService');
+    }
+  });
+
   $(function() {
-    return window.app = new SSN.App();
+    window.app = new SSN.App();
+    window.router = new SSN.Router();
+    return Backbone.history.start();
   });
 
 }).call(this);
