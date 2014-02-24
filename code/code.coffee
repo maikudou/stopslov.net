@@ -22,7 +22,6 @@ SSN.App = Backbone.Model.extend
         @on 'change:stopWords', @save
 
     buildRegexp: ->
-        console.profile('buildRegexp')
         wordForms = []
         regexp = '([^а-яА-Я\\-]|\\s|\\r|\\n|\\b)('+_.map(@get('stopWords'), (word)->
             if variantIndex = SSN.dictionary[word.toLowerCase()]
@@ -44,8 +43,6 @@ SSN.App = Backbone.Model.extend
         ).join('|')+wordForms.join('|')+')([^а-яА-Я\\-]|\\s)'
 
         @set 'regexp', new RegExp(regexp, 'gi')
-
-        console.profileEnd('buildRegexp')
 
 
     changeWords: (changeStack)->

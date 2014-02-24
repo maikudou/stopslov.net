@@ -26,7 +26,6 @@
     },
     buildRegexp: function() {
       var regexp, wordForms;
-      console.profile('buildRegexp');
       wordForms = [];
       regexp = '([^а-яА-Я\\-]|\\s|\\r|\\n|\\b)(' + _.map(this.get('stopWords'), function(word) {
         var ending, replaceRegexp, variant, variantIndex, variantIndexSingle, variants, _i, _j, _k, _len, _len1, _len2, _ref, _ref1;
@@ -60,8 +59,7 @@
         }
         return word.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/gi, "\\$&");
       }).join('|') + wordForms.join('|') + ')([^а-яА-Я\\-]|\\s)';
-      this.set('regexp', new RegExp(regexp, 'gi'));
-      return console.profileEnd('buildRegexp');
+      return this.set('regexp', new RegExp(regexp, 'gi'));
     },
     changeWords: function(changeStack) {
       if (changeStack.removed != null) {
