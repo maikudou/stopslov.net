@@ -22,16 +22,33 @@ SSN.App = Backbone.Model.extend
         @on 'change:stopWords', @save
 
     buildRegexp: ->
+        console.profile('buildRegexp')
+        wordForms = []
         regexp = '([^а-яА-Я\\-]|\\s|\\r|\\n|\\b)('+_.map(@get('stopWords'), (word)->
+            if variantIndex = SSN.dictionary[word.toLowerCase()]
+                for variantIndexSingle in variantIndex.split('')
+                
+                    for ending, variants of SSN.affixes[variantIndexSingle]
+                        if ending == '0'
+                            for variant in variants
+                                regexp = new RegExp(variant[1]+'$', 'gi')
+                                wordForms.push word+variant[0] if regexp.test(word)
+                        else
+                            for variant in variants
+                                regexp = new RegExp(variant[1]+'$', 'gi')
+                                if variant[0] != '0' and regexp.test(word) 
+                                    replaceRegexp = new RegExp(ending+'$', 'gi')
+                                    wordForms.push word.replace(replaceRegexp, variant[0])
+
             return word.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/gi, "\\$&");
-        ).join('|')+')([^а-яА-Я\\-]|\\s)'
+        ).join('|')+wordForms.join('|')+')([^а-яА-Я\\-]|\\s)'
 
         @set 'regexp', new RegExp(regexp, 'gi')
 
-        console.log(@get('regexp'))
+        console.profileEnd('buildRegexp')
+
 
     changeWords: (changeStack)->
-        console.log changeStack
         if changeStack.removed?
             @excludeWords changeStack.removed
 
@@ -96,6 +113,7 @@ SSN.Form = Backbone.View.extend
         @$menuItems.eq(index).addClass('bContent__eMenuItem__mState_active')
 
     toggleWords: (e)->
+        e.preventDefault()
         $target = $(e.currentTarget)
 
         @renderWords()
@@ -140,6 +158,7 @@ SSN.Form = Backbone.View.extend
             value: newWord
 
     removeWord: (e)->
+        e.preventDefault()
         $target = $(e.currentTarget)
         $target.addClass('mHide')
 
@@ -180,6 +199,12 @@ SSN.Router = Backbone.Router.extend
         app.form.selectTab('aboutService')
 
 $ ->
-    window.app = new SSN.App()
-    window.router = new SSN.Router()
-    Backbone.history.start()
+    $.getJSON 'dictionaries/ru_RU.aff.json', (data)->
+        SSN.affixes = data
+
+        $.getJSON 'dictionaries/ru_RU.dic.json', (data)->
+            SSN.dictionary = data
+
+            window.app = new SSN.App()
+            window.router = new SSN.Router()
+            Backbone.history.start()
