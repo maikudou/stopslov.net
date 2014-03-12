@@ -4,6 +4,8 @@ module.exports = (grunt)->
     grunt.loadNpmTasks 'grunt-contrib-jade'
     grunt.loadNpmTasks 'grunt-contrib-less'
     grunt.loadNpmTasks 'grunt-contrib-concat'
+    grunt.loadNpmTasks 'grunt-contrib-copy'
+    grunt.loadNpmTasks 'node-srv'
 
     grunt.initConfig 
         coffee:
@@ -34,6 +36,17 @@ module.exports = (grunt)->
                 src: ['code/js/libs/jquery.js', 'code/js/libs/underscore.js', 'code/js/libs/backbone.js', 'code/js/words.js', 'code/js/code.js', 'code/js/analytics.js']
                 dest: 'build/global.js'
 
+        copy:
+            production:
+                src: 'dictionaries/*.json'
+                dest: 'build/'
+
+        srv:
+            server:
+                port: 8000
+                root: 'build'
+                index: 'index.html'
+    
         watch:
             coffee:
                 files: ['code/**/*.coffee']
@@ -53,5 +66,77 @@ module.exports = (grunt)->
 
 
     grunt.registerTask 'default', 'watch'
-    grunt.registerTask 'build', ['coffee', 'jade', 'less', 'concat']
+    grunt.registerTask 'build', ['coffee', 'jade', 'less', 'concat', 'copy']
+
+    grunt.registerTask 'processDictionaries', ['processAff', 'processDic']
+
+    grunt.registerTask 'processAff', 'Processing OpenOffice affix file to JSON', ->
+        done = @async()
+        fs = require 'fs'
+        readline = require 'readline'
+
+        stream = fs.createReadStream('dictionaries/ru_RU.aff')
+        stream.on 'end', ->
+            #console.log(affixObject)
+            fs.writeFileSync "dictionaries/ru_RU.aff.json", JSON.stringify(affixObject, null, '    ')
+            
+            done true
+
+        affixObject = {}
+
+        rd = readline.createInterface
+            input: stream,
+            output: process.stdout,
+            terminal: false
+
+        rd.on 'line', (line)->
+            unless line == ''
+                lineArray = line.split(' ')
+
+                return if lineArray[2] == 'Y'
+                
+                lineArray.shift()
+                lineIndex = lineArray.shift()                
+
+                affixObject[lineIndex] = {} unless affixObject[lineIndex]?
+
+                lineString = lineArray.shift()
+
+                affixObject[lineIndex][lineString] = [] unless affixObject[lineIndex][lineString]?
+
+                affixObject[lineIndex][lineString].push lineArray 
+
+    grunt.registerTask 'processDic', 'Processing OpenOffice dictionary file to JSON', ->
+        done = @async()
+        fs = require 'fs'
+        readline = require 'readline'
+
+        stream = fs.createReadStream('dictionaries/ru_RU.dic')
+        stream.on 'end', ->
+            #console.log(affixObject)
+            fs.writeFileSync "dictionaries/ru_RU.dic.json", JSON.stringify(dicObject, null, '    ')
+            
+            done true
+
+        dicObject = {}
+
+        rd = readline.createInterface
+            input: stream,
+            output: process.stdout,
+            terminal: false
+
+        rd.on 'line', (line)->
+            unless line == ''
+                lineArray = line.split('/')
+
+                lineIndex = lineArray.shift()                
+
+                dicObject[lineIndex] = {} unless dicObject[lineIndex]?
+
+                if lineArray.length == 0
+                    dicObject[lineIndex] = null
+                    return false
+
+                dicObject[lineIndex] = lineArray[0] 
+
             

@@ -25,15 +25,43 @@
       return this.on('change:stopWords', this.save);
     },
     buildRegexp: function() {
-      var regexp;
+      var regexp, wordForms;
+      wordForms = [];
       regexp = '([^а-яА-Я\\-]|\\s|\\r|\\n|\\b)(' + _.map(this.get('stopWords'), function(word) {
+        var ending, replaceRegexp, variant, variantIndex, variantIndexSingle, variants, _i, _j, _k, _len, _len1, _len2, _ref, _ref1;
+        if (variantIndex = SSN.dictionary[word.toLowerCase()]) {
+          _ref = variantIndex.split('');
+          for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+            variantIndexSingle = _ref[_i];
+            _ref1 = SSN.affixes[variantIndexSingle];
+            for (ending in _ref1) {
+              variants = _ref1[ending];
+              if (ending === '0') {
+                for (_j = 0, _len1 = variants.length; _j < _len1; _j++) {
+                  variant = variants[_j];
+                  regexp = new RegExp(variant[1] + '$', 'gi');
+                  if (regexp.test(word)) {
+                    wordForms.push(word + variant[0]);
+                  }
+                }
+              } else {
+                for (_k = 0, _len2 = variants.length; _k < _len2; _k++) {
+                  variant = variants[_k];
+                  regexp = new RegExp(variant[1] + '$', 'gi');
+                  if (variant[0] !== '0' && regexp.test(word)) {
+                    replaceRegexp = new RegExp(ending + '$', 'gi');
+                    wordForms.push(word.replace(replaceRegexp, variant[0]));
+                  }
+                }
+              }
+            }
+          }
+        }
         return word.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/gi, "\\$&");
-      }).join('|') + ')([^а-яА-Я\\-]|\\s)';
-      this.set('regexp', new RegExp(regexp, 'gi'));
-      return console.log(this.get('regexp'));
+      }).join('|') + wordForms.join('|') + ')([^а-яА-Я\\-]|\\s)';
+      return this.set('regexp', new RegExp(regexp, 'gi'));
     },
     changeWords: function(changeStack) {
-      console.log(changeStack);
       if (changeStack.removed != null) {
         this.excludeWords(changeStack.removed);
       }
@@ -102,6 +130,7 @@
     },
     toggleWords: function(e) {
       var $target;
+      e.preventDefault();
       $target = $(e.currentTarget);
       this.renderWords();
       this.$wordList.toggleClass('bContent__eWordsList__mState_open');
@@ -149,6 +178,7 @@
     removeWord: function(e) {
       var $target,
         _this = this;
+      e.preventDefault();
       $target = $(e.currentTarget);
       $target.addClass('mHide');
       $target.one(this.model.getTransitionEventsString(), function() {
@@ -195,9 +225,15 @@
   });
 
   $(function() {
-    window.app = new SSN.App();
-    window.router = new SSN.Router();
-    return Backbone.history.start();
+    return $.getJSON('dictionaries/ru_RU.aff.json', function(data) {
+      SSN.affixes = data;
+      return $.getJSON('dictionaries/ru_RU.dic.json', function(data) {
+        SSN.dictionary = data;
+        window.app = new SSN.App();
+        window.router = new SSN.Router();
+        return Backbone.history.start();
+      });
+    });
   });
 
 }).call(this);
