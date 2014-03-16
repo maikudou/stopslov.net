@@ -1,84 +1,131 @@
 module.exports = (grunt)->
     grunt.loadNpmTasks 'grunt-contrib-coffee'
     grunt.loadNpmTasks 'grunt-contrib-watch'
-    grunt.loadNpmTasks 'grunt-contrib-jade'
     grunt.loadNpmTasks 'grunt-contrib-less'
     grunt.loadNpmTasks 'grunt-contrib-concat'
     grunt.loadNpmTasks 'grunt-contrib-copy'
     grunt.loadNpmTasks 'node-srv'
+
+    readline = require 'readline'
+    path     = require 'path'
+    fs       = require 'fs'
+
 
     grunt.initConfig 
         coffee:
             compile:
                 files: [
                     expand: true
-                    cwd: 'code'
+                    cwd: 'dist/coffee/'
                     src: ['**/*.coffee']
-                    dest: 'code/js'
+                    dest: 'dist/js'
                     ext: '.js'
                 ]
 
         jade:
-            compile:
-                files:
-                    "build/index.html": "code/template.jade"
+            pages:
+                cwd: 'dist/pages/'
+                src: '*.jade'
+                dest: 'build/'
+                ext: '.html'
                 options:
                     pretty: true
 
         less:
             compile:
                 files:
-                    "build/global.css": "code/global.less"
+                    "build/global.css": "dist/less/global.less"
 
         concat:
             production:
                 separator: '\n'
-                src: ['code/js/libs/jquery.js', 'code/js/libs/underscore.js', 'code/js/libs/backbone.js', 'code/js/words.js', 'code/js/code.js', 'code/js/analytics.js']
+                src: ['dist/js/libs/jquery.js', 'dist/js/libs/underscore.js', 'dist/js/libs/backbone.js', 'dist/js/*.js']
                 dest: 'build/global.js'
 
         copy:
-            production:
+            dictionaries:
                 src: 'dictionaries/*.json'
                 dest: 'build/'
+
+            static:
+                expand: true
+                cwd: 'dist/static/'
+                src: '**/*'
+                dest: 'build/'
+                filter: 'isFile'
+
+        affToJson:
+            cwd: 'dictionaries/'
+            src: 'ru_RU.aff'
+            dest: 'dictionaries/'
+            ext: '.json'
+
+        dicToJson:
+            cwd: 'dictionaries/'
+            src: 'ru_RU.dic'
+            dest: 'dictionaries/'
+            ext: '.json'
 
         srv:
             server:
                 port: 8000
                 root: 'build'
                 index: 'index.html'
+                404: 'build/404.html'
     
         watch:
             coffee:
-                files: ['code/**/*.coffee']
+                files: ['dist/coffee/**/*.coffee']
                 tasks: ['coffee:compile']
 
             jade:
-                files: ['code/*.jade']
+                files: ['dist/pages/*.jade']
                 tasks: ['jade:compile']
 
             less:
-                files: ['code/*.less']
+                files: ['dist/less/*.less']
                 tasks: ['less:compile']
 
             concat:
-                files: ['code/**/*.js']
+                files: ['dist/**/*.js']
                 tasks: ['concat:production']
 
 
     grunt.registerTask 'default', 'watch'
-    grunt.registerTask 'build', ['coffee', 'jade', 'less', 'concat', 'copy']
+    grunt.registerTask 'build', ['processDictionaries', 'coffee', 'jade', 'less', 'concat', 'copy']
 
-    grunt.registerTask 'processDictionaries', ['processAff', 'processDic']
 
-    grunt.registerTask 'processAff', 'Processing OpenOffice affix file to JSON', ->
+    grunt.registerMultiTask 'jade', 'Compile jade to HTML', ->
+        jade = require 'jade'
+
+        for file in this.filesSrc
+            filepath = path.join(@data.cwd, file)
+
+            try
+                compiled = jade.compile grunt.file.read(filepath), grunt.util._.extend({filename: filepath}, @data.options or {})
+                html = compiled.call @, @data.extraData or {}
+
+                filename = path.basename file, path.extname file
+                savePath = path.join @data.dest, filename+(@data.ext or '.html')
+
+                grunt.file.write savePath, html
+                grunt.log.ok "Rendered \"#{filepath}\" at #{grunt.template.today()}"
+
+            catch e
+                grunt.log.error "Jade render error: #{e}"
+
+
+    grunt.registerTask 'processDictionaries', ['affToJson', 'dicToJson']
+
+
+    grunt.registerTask 'affToJson', 'Processing OpenOffice affix file to JSON', ->
         done = @async()
-        fs = require 'fs'
-        readline = require 'readline'
+        data = grunt.config.get('affToJson')
 
-        stream = fs.createReadStream('dictionaries/ru_RU.aff')
+        stream = fs.createReadStream path.join data.cwd, data.src
         stream.on 'end', ->
             #console.log(affixObject)
-            fs.writeFileSync "dictionaries/ru_RU.aff.json", JSON.stringify(affixObject, null, '    ')
+            fs.writeFileSync path.join(data.dest, data.src+data.ext), JSON.stringify(affixObject, null, '    ')
             
             done true
 
@@ -106,15 +153,15 @@ module.exports = (grunt)->
 
                 affixObject[lineIndex][lineString].push lineArray 
 
-    grunt.registerTask 'processDic', 'Processing OpenOffice dictionary file to JSON', ->
-        done = @async()
-        fs = require 'fs'
-        readline = require 'readline'
 
-        stream = fs.createReadStream('dictionaries/ru_RU.dic')
+    grunt.registerTask 'dicToJson', 'Processing OpenOffice dictionary file to JSON', ->
+        done = @async()
+        data = grunt.config.get('dicToJson')
+
+        stream = fs.createReadStream path.join data.cwd, data.src
         stream.on 'end', ->
             #console.log(affixObject)
-            fs.writeFileSync "dictionaries/ru_RU.dic.json", JSON.stringify(dicObject, null, '    ')
+            fs.writeFileSync path.join(data.dest, data.src+data.ext), JSON.stringify(dicObject, null, '    ')
             
             done true
 
@@ -139,4 +186,3 @@ module.exports = (grunt)->
 
                 dicObject[lineIndex] = lineArray[0] 
 
-            
