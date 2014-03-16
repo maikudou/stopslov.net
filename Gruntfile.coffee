@@ -39,7 +39,7 @@ module.exports = (grunt)->
         concat:
             production:
                 separator: '\n'
-                src: ['dist/js/libs/jquery.js', 'dist/js/libs/underscore.js', 'dist/js/libs/backbone.js', 'dist/js/*.js']
+                src: ['dist/js/libs/jquery.js', 'dist/js/libs/underscore.js', 'dist/js/libs/backbone.js', 'dist/js/words.js', 'dist/js/analytics.js', 'dist/js/app.js']
                 dest: 'build/global.js'
 
         copy:
