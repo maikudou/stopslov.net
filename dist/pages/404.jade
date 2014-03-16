@@ -1,0 +1,48 @@
+doctype
+html
+    head
+        title 404 — Стоп-слов нет
+        meta(http-equiv="Content-Type", content="text/html; charset=utf-8")
+        link(href='global.css', rel='stylesheet')
+
+    body
+        .bContent
+            header.bHeader
+                h1.bHeader__eTitle Стоп-слов нет&nbsp;&rarr; 404
+
+            .bContent__eText
+                h1 О, нет! Здесь пусто!
+                p На stopslov.net вообще всего три страницы:
+                ul
+                    li
+                        a(href="/#") Маркер
+                    li
+                        a(href="/#about/words/") Про стоп-слова
+                    li
+                        a(href="/#about/service/") О сервисе
+
+        // Yandex.Metrika counter
+        script.
+            (function (d, w, c) {
+               (w[c] = w[c] || []).push(function() {
+                   try {
+                       w.yaCounter22464010 = new Ya.Metrika({id:22464010,
+                               webvisor:true,
+                               clickmap:true,
+                               trackLinks:true,
+                               accurateTrackBounce:true});
+                   } catch(e) { }
+               });
+
+               var n = d.getElementsByTagName("script")[0],
+                   s = d.createElement("script"),
+                   f = function () { n.parentNode.insertBefore(s, n); };
+               s.type = "text/javascript";
+               s.async = true;
+               s.src = (d.location.protocol == "https:" ? "https:" : "http:") + "//mc.yandex.ru/metrika/watch.js";
+
+               if (w.opera == "[object Opera]") {
+                   d.addEventListener("DOMContentLoaded", f, false);
+               } else { f(); }
+
+            })(document, window, "yandex_metrika_callbacks");

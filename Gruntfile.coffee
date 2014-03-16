@@ -80,7 +80,7 @@ module.exports = (grunt)->
 
             jade:
                 files: ['dist/pages/*.jade']
-                tasks: ['jade:compile']
+                tasks: ['jade']
 
             less:
                 files: ['dist/less/*.less']
