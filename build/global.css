@@ -87,13 +87,16 @@ body {
 }
 .bContent__eForm {
   box-sizing: border-box;
-  padding: 20px 5px 20px 44px;
+  padding: 20px 44px;
 }
 .bContent__eFormMainInput {
   resize: vertical;
   width: 100%;
   box-sizing: border-box;
-  height: 130px;
+  min-height: 130px;
+  border: 1px solid #a9a9a9;
+  padding: 2px;
+  font-size: 14px;
 }
 .bContent__eFormHint {
   font-size: 14px;
@@ -193,5 +196,4 @@ body {
 }
 .bStopWord {
   background: yellow;
-  font-weight: bold;
 }

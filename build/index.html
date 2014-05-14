@@ -25,23 +25,16 @@
       <div class="bContent__eWordsList">Слова</div>
       <nav class="bContent__eMenu"><a href="#" class="bContent__eMenuItem bContent__eMenuItem__mState_active">Маркер</a><a href="#about/words/" class="bContent__eMenuItem">Про стоп-слова</a><a href="#about/service/" class="bContent__eMenuItem">О сервисе</a></nav>
       <div id="ssnForm" class="bContent__eTab bContent__eTab__mState_active">
-        <div class="bContent__eColumn">
-          <form id="mainForm" class="bContent__eForm">
-            <textarea id="mainInput" class="bContent__eFormMainInput"></textarea>
-            <label class="bContent__eFormHint">Введите или скопируйте текст</label>
-          </form>
-        </div>
-        <div class="bContent__eColumn">
-          <div class="bContent__eOutput">
-            <div class="bContent__eOutputText"></div>
-          </div>
-        </div>
+        <form id="mainForm" class="bContent__eForm">
+          <div id="mainInput" contentEditable="true" class="bContent__eFormMainInput"></div>
+          <label class="bContent__eFormHint">Введите или скопируйте текст</label>
+        </form>
       </div>
       <div id="aboutWords" class="bContent__eTab">
         <div class="bContent__eTabText">Стоп-слова &mdash; это слова, которые нельзя или не рекомендовано использовать<br>в тексте. Они не несут никакого смысла и служат только балластом.</div>
       </div>
       <div id="aboutService" class="bContent__eTab">
-        <div class="bContent__eTabText"> 
+        <div class="bContent__eTabText">
           <p>Мы&nbsp;делаем Stopslov.net вовсе не&nbsp;для проверки произведений классиков. Гении высказались, их&nbsp;творения навсегда запечатлены на&nbsp;бумаге и&nbsp;в&nbsp;файлах. Сервис полезен для написания чистых, информативных&nbsp;и, в&nbsp;большинстве своем, коммерческих текстов. Он&nbsp;для новых и&nbsp;еще неопубликованных материалов.</p>
           <p>Маркер, инструмент для выявления словесного мусора, не&nbsp;работает по&nbsp;принципу типографа&nbsp;&mdash; не&nbsp;исправляет ошибки автоматически. С&nbsp;мыслью, которую автор стремится донести до&nbsp;читателей, так нельзя. Стопслов только рекомендует, указывая на&nbsp;возможно допущенные ошибки в&nbsp;тексте. Не&nbsp;в&nbsp;отдельных словах, не&nbsp;опечатки, а&nbsp;именно в&nbsp;тексте, выделяя целые слова и&nbsp;выражения. Оставить или удалить их&nbsp;&mdash; решать автору.</p>
           <p>Стопслов.нет&nbsp;&mdash; сервис для написания чистых черновиков. Заготовок, которые проще окрашивать в&nbsp;нужные тона. Получив чистый черновой материал, в&nbsp;последующей подготовке публикаций не&nbsp;нужно ничего удалять, остается только раскрашивать под принятый в&nbsp;редакции формат. Не&nbsp;замусоренный черновик легче адаптировать под нужды издания или рекламного макета.</p>
@@ -51,7 +44,7 @@
         </div>
       </div>
     </div>
-    <footer class="bFooter">Идея: <a href="http://egerev.ru" class="bFooter__eLink">Кирилл Егерев</a> |  Реализация: <a href="https://github.com/maikudou" class="bFooter__eLink">Михаил Лабанов</a>, <a href="http://nick-iv.me" class="bFooter__eLink">Николай Иванушкин</a>
+    <footer class="bFooter">Идея:<a href="http://egerev.ru" class="bFooter__eLink">Кирилл Егерев</a> |  Реализация:<a href="https://github.com/maikudou" class="bFooter__eLink">Михаил Лабанов</a>,<a href="http://nick-iv.me" class="bFooter__eLink">Николай Иванушкин</a>
       <!-- Yandex.Metrika informer--><a href="http://metrika.yandex.ru/stat/?id=22464010&amp;from=informer" target="_blank" rel="nofollow" class="bFooter__eMetrika"><img src="//bs.yandex.ru/informer/22464010/1_0_FFFFFFFF_FFFFFFFF_0_uniques" style="width:80px; height:15px; border:0;" alt="Яндекс.Метрика" title="Яндекс.Метрика: данные за сегодня (уникальные посетители)" onclick="try{Ya.Metrika.informer({i:this,id:22464010,lang:'ru'});return false}catch(e){}"></a>
       <!-- /Yandex.Metrika informer-->
       <!-- Yandex.Metrika counter-->

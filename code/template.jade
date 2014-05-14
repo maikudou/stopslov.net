@@ -29,14 +29,9 @@ html
                 a.bContent__eMenuItem(href="#about/service/") О сервисе
 
             .bContent__eTab.bContent__eTab__mState_active#ssnForm
-                .bContent__eColumn
-                    form.bContent__eForm#mainForm
-                        textarea.bContent__eFormMainInput#mainInput
-                        label.bContent__eFormHint Введите или скопируйте текст
-
-                .bContent__eColumn
-                    .bContent__eOutput
-                        .bContent__eOutputText
+                form.bContent__eForm#mainForm
+                    div.bContent__eFormMainInput#mainInput(contentEditable="true")
+                    label.bContent__eFormHint Введите или скопируйте текст
 
             .bContent__eTab#aboutWords
                 .bContent__eTabText Стоп-слова &mdash; это слова, которые нельзя или не рекомендовано использовать
@@ -44,7 +39,7 @@ html
                     | в тексте. Они не несут никакого смысла и служат только балластом.
 
             .bContent__eTab#aboutService
-                .bContent__eTabText 
+                .bContent__eTabText
                     p Мы&nbsp;делаем Stopslov.net вовсе не&nbsp;для проверки произведений классиков. Гении высказались, их&nbsp;творения навсегда запечатлены на&nbsp;бумаге и&nbsp;в&nbsp;файлах. Сервис полезен для написания чистых, информативных&nbsp;и, в&nbsp;большинстве своем, коммерческих текстов. Он&nbsp;для новых и&nbsp;еще неопубликованных материалов.
                     p Маркер, инструмент для выявления словесного мусора, не&nbsp;работает по&nbsp;принципу типографа&nbsp;&mdash; не&nbsp;исправляет ошибки автоматически. С&nbsp;мыслью, которую автор стремится донести до&nbsp;читателей, так нельзя. Стопслов только рекомендует, указывая на&nbsp;возможно допущенные ошибки в&nbsp;тексте. Не&nbsp;в&nbsp;отдельных словах, не&nbsp;опечатки, а&nbsp;именно в&nbsp;тексте, выделяя целые слова и&nbsp;выражения. Оставить или удалить их&nbsp;&mdash; решать автору.
                     p Стопслов.нет&nbsp;&mdash; сервис для написания чистых черновиков. Заготовок, которые проще окрашивать в&nbsp;нужные тона. Получив чистый черновой материал, в&nbsp;последующей подготовке публикаций не&nbsp;нужно ничего удалять, остается только раскрашивать под принятый в&nbsp;редакции формат. Не&nbsp;замусоренный черновик легче адаптировать под нужды издания или рекламного макета.
@@ -53,16 +48,16 @@ html
                     p Выделяя слова, маркер ориентируется на&nbsp;список стоп-слов по&nbsp;умолчанию. Сервис гибкий. Стандартный список можно изменить под свои нужды&nbsp;&mdash; удалив лишнее и&nbsp;добавив свое. Пока что списки сохраняются для каждого браузера. Чтобы вернуться к&nbsp;настройкам по&nbsp;умолчанию, нужно очистить кэш браузера. Для большего удобства мы&nbsp;добавим пользовательские профили.
 
         footer.bFooter
-            | Идея: 
+            | Идея:
             a.bFooter__eLink(href="http://egerev.ru") Кирилл Егерев
-            |  |  Реализация: 
+            |  |  Реализация:
             a.bFooter__eLink(href="https://github.com/maikudou") Михаил Лабанов
-            |, 
+            |,
             a.bFooter__eLink(href="http://nick-iv.me") Николай Иванушкин
 
-            
+
             // Yandex.Metrika informer
-            
+
             a.bFooter__eMetrika(
                 href="http://metrika.yandex.ru/stat/?id=22464010&from=informer",
                 target="_blank",
@@ -101,7 +96,7 @@ html
                    } else { f(); }
 
                 })(document, window, "yandex_metrika_callbacks");
-            
+
             noscript
                 div
                     img(src="//mc.yandex.ru/watch/22464010", style="position:absolute; left:-9999px;", alt="")

@@ -2,7 +2,7 @@ window.SSN = {} unless SSN?
 window.app = {}
 
 SSN.App = Backbone.Model.extend
-    defaults: 
+    defaults:
         stopWords: window.SSNWords
         regexp: //
 
@@ -26,7 +26,7 @@ SSN.App = Backbone.Model.extend
         regexp = '([^а-яА-Я\\-]|\\s|\\r|\\n|\\b)('+_.map(@get('stopWords'), (word)->
             if variantIndex = SSN.dictionary[word.toLowerCase()]
                 for variantIndexSingle in variantIndex.split('')
-                
+
                     for ending, variants of SSN.affixes[variantIndexSingle]
                         if ending == '0'
                             for variant in variants
@@ -35,7 +35,7 @@ SSN.App = Backbone.Model.extend
                         else
                             for variant in variants
                                 regexp = new RegExp(variant[1]+'$', 'gi')
-                                if variant[0] != '0' and regexp.test(word) 
+                                if variant[0] != '0' and regexp.test(word)
                                     replaceRegexp = new RegExp(ending+'$', 'gi')
                                     wordForms.push word.replace(replaceRegexp, variant[0])
 
@@ -63,6 +63,8 @@ SSN.App = Backbone.Model.extend
             @buildRegexp()
 
     processContent: (content)->
+        content = content.replace(/^(\s*)(\S+)(.*)/gi, '$2$3').replace(/(\.*)(\S+)(\s*)$/gi, '$1$2')
+        content = content.replace(/(<span class="bStopWord">)([a-я ]*|[^<]*<span id="selectionBoundary[^<]+<\/span>[a-я ]*)(<\/span>)/gi, '$2')
         content = ' ' + content + ' ' #TODO DIRTY HACK
         content = content.replace(/[\f\n\r]/gi, '$& ') #TODO DIRTY HACK
         content = content.replace(@get('regexp'), '$1<span class="bStopWord">$2</span>$3')
@@ -82,7 +84,7 @@ SSN.App = Backbone.Model.extend
 
 
 SSN.Form = Backbone.View.extend
-    initialize: -> 
+    initialize: ->
         @setElement $('.bContent')[0]
         @$input = $ '#mainInput', @el
         @$menuItems = @$el.find('.bContent__eMenuItem')
@@ -90,16 +92,20 @@ SSN.Form = Backbone.View.extend
         @$listOpener = @$el.find('#listOpener')
         @$wordList = @$el.find('.bContent__eWordsList')
 
+        @frameDoc = @$input.contentDocument ? @$input.document
+
         @listenTo @model, 'change:stopWords', @renderWords
         @listenTo @model, 'change:regexp', @changeContent
 
-    events: 
+    events:
         'keyup #mainInput': 'changeContent'
         'click #listOpener': 'toggleWords'
         'click .jsWord': 'removeWord'
 
     changeContent: ->
-        @trigger 'change:content', @$input.val()
+        selection=rangy.saveSelection(selection)
+        @trigger 'change:content', @$input.html()
+        rangy.restoreSelection(selection)
 
     selectTab: (tabName)->
         index = @$tabs.closest('#'+tabName).index('.bContent__eTab')
@@ -132,7 +138,7 @@ SSN.Form = Backbone.View.extend
                 action: 'close'
                 label: 'StopList'
 
-        return false
+        e.preventDefault()
 
     renderWords: ->
         words = _.map @model.get('stopWords'), (word)->
@@ -160,7 +166,7 @@ SSN.Form = Backbone.View.extend
         $target.addClass('mHide')
 
         $target.one @model.getTransitionEventsString(), =>
-            @trigger 'change:stopWords', 
+            @trigger 'change:stopWords',
                 removed: [$target.text()]
 
         SSN.Analytics.trackEvent
@@ -170,11 +176,8 @@ SSN.Form = Backbone.View.extend
 
 
 SSN.Output = Backbone.View.extend
-    initialize: -> 
-        @setElement $('.bContent__eOutputText')[0]
-
-    events: 
-        'keyup #mainInput': 'processContent'
+    initialize: ->
+        @setElement $('#mainInput')[0]
 
     update: (content)->
         @$el.html(content)

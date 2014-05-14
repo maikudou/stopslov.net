@@ -82,6 +82,8 @@
       }
     },
     processContent: function(content) {
+      content = content.replace(/^(\s*)(\S+)(.*)/gi, '$2$3').replace(/(\.*)(\S+)(\s*)$/gi, '$1$2');
+      content = content.replace(/(<span class="bStopWord">)([a-я ]*|[^<]*<span id="selectionBoundary[^<]+<\/span>[a-я ]*)(<\/span>)/gi, '$2');
       content = ' ' + content + ' ';
       content = content.replace(/[\f\n\r]/gi, '$& ');
       content = content.replace(this.get('regexp'), '$1<span class="bStopWord">$2</span>$3');
@@ -103,12 +105,14 @@
 
   SSN.Form = Backbone.View.extend({
     initialize: function() {
+      var _ref;
       this.setElement($('.bContent')[0]);
       this.$input = $('#mainInput', this.el);
       this.$menuItems = this.$el.find('.bContent__eMenuItem');
       this.$tabs = this.$el.find('.bContent__eTab');
       this.$listOpener = this.$el.find('#listOpener');
       this.$wordList = this.$el.find('.bContent__eWordsList');
+      this.frameDoc = (_ref = this.$input.contentDocument) != null ? _ref : this.$input.document;
       this.listenTo(this.model, 'change:stopWords', this.renderWords);
       return this.listenTo(this.model, 'change:regexp', this.changeContent);
     },
@@ -118,7 +122,10 @@
       'click .jsWord': 'removeWord'
     },
     changeContent: function() {
-      return this.trigger('change:content', this.$input.val());
+      var selection;
+      selection = rangy.saveSelection(selection);
+      this.trigger('change:content', this.$input.html());
+      return rangy.restoreSelection(selection);
     },
     selectTab: function(tabName) {
       var index;
@@ -149,7 +156,7 @@
           label: 'StopList'
         });
       }
-      return false;
+      return e.preventDefault();
     },
     renderWords: function() {
       var words;
@@ -196,10 +203,7 @@
 
   SSN.Output = Backbone.View.extend({
     initialize: function() {
-      return this.setElement($('.bContent__eOutputText')[0]);
-    },
-    events: {
-      'keyup #mainInput': 'processContent'
+      return this.setElement($('#mainInput')[0]);
     },
     update: function(content) {
       return this.$el.html(content);

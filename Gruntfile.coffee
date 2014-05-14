@@ -7,7 +7,7 @@ module.exports = (grunt)->
     grunt.loadNpmTasks 'grunt-contrib-copy'
     grunt.loadNpmTasks 'node-srv'
 
-    grunt.initConfig 
+    grunt.initConfig
         coffee:
             compile:
                 files: [
@@ -22,6 +22,7 @@ module.exports = (grunt)->
             compile:
                 files:
                     "build/index.html": "code/template.jade"
+                    "build/frame.html": "code/frame.jade"
                 options:
                     pretty: true
 
@@ -33,7 +34,7 @@ module.exports = (grunt)->
         concat:
             production:
                 separator: '\n'
-                src: ['code/js/libs/jquery.js', 'code/js/libs/underscore.js', 'code/js/libs/backbone.js', 'code/js/words.js', 'code/js/code.js', 'code/js/analytics.js']
+                src: ['code/js/libs/jquery.js','code/js/libs/rangy-core.js', 'code/js/libs/rangy-selectionsaverestore.js', 'code/js/libs/underscore.js', 'code/js/libs/backbone.js', 'code/js/words.js', 'code/js/code.js', 'code/js/analytics.js']
                 dest: 'build/global.js'
 
         copy:
@@ -46,7 +47,7 @@ module.exports = (grunt)->
                 port: 8000
                 root: 'build'
                 index: 'index.html'
-    
+
         watch:
             coffee:
                 files: ['code/**/*.coffee']
@@ -79,7 +80,7 @@ module.exports = (grunt)->
         stream.on 'end', ->
             #console.log(affixObject)
             fs.writeFileSync "dictionaries/ru_RU.aff.json", JSON.stringify(affixObject, null, '    ')
-            
+
             done true
 
         affixObject = {}
@@ -94,9 +95,9 @@ module.exports = (grunt)->
                 lineArray = line.split(' ')
 
                 return if lineArray[2] == 'Y'
-                
+
                 lineArray.shift()
-                lineIndex = lineArray.shift()                
+                lineIndex = lineArray.shift()
 
                 affixObject[lineIndex] = {} unless affixObject[lineIndex]?
 
@@ -104,7 +105,7 @@ module.exports = (grunt)->
 
                 affixObject[lineIndex][lineString] = [] unless affixObject[lineIndex][lineString]?
 
-                affixObject[lineIndex][lineString].push lineArray 
+                affixObject[lineIndex][lineString].push lineArray
 
     grunt.registerTask 'processDic', 'Processing OpenOffice dictionary file to JSON', ->
         done = @async()
@@ -115,7 +116,7 @@ module.exports = (grunt)->
         stream.on 'end', ->
             #console.log(affixObject)
             fs.writeFileSync "dictionaries/ru_RU.dic.json", JSON.stringify(dicObject, null, '    ')
-            
+
             done true
 
         dicObject = {}
@@ -129,7 +130,7 @@ module.exports = (grunt)->
             unless line == ''
                 lineArray = line.split('/')
 
-                lineIndex = lineArray.shift()                
+                lineIndex = lineArray.shift()
 
                 dicObject[lineIndex] = {} unless dicObject[lineIndex]?
 
@@ -137,6 +138,5 @@ module.exports = (grunt)->
                     dicObject[lineIndex] = null
                     return false
 
-                dicObject[lineIndex] = lineArray[0] 
+                dicObject[lineIndex] = lineArray[0]
 
-            
