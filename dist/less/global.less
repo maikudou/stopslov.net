@@ -101,13 +101,16 @@ body {
 
     &__eForm {
         box-sizing: border-box;
-        padding: 20px 5px 20px 44px;
+        padding: 20px 44px;
 
         &MainInput {
             resize: vertical;
             width: 100%;
             box-sizing: border-box;
-            height: 130px;
+            min-height: 130px;
+            border: 1px solid rgb(169, 169, 169);
+            padding: 2px;
+            font-size: 14px;
         }
 
         &Hint {
@@ -217,5 +220,4 @@ body {
 }
 .bStopWord {
     background: yellow;
-    font-weight: bold;
 }
