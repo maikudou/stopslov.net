@@ -375,6 +375,7 @@ window.SSNWords = [
       }
     },
     processContent: function(content) {
+      content = content.replace(/\s+style=['\"][^'\"]+['\"]/gi, '');
       content = content.replace(/^(\s*)(\S+)(.*)/gi, '$2$3').replace(/(\.*)(\S+)(\s*)$/gi, '$1$2');
       content = content.replace(/(<span class="bStopWord">)([a-я ]*|[^<]*<span id="selectionBoundary[^<]+<\/span>[a-я ]*)(<\/span>)/gi, '$2');
       content = ' ' + content + ' ';

@@ -100,6 +100,12 @@ body {
   padding: 2px;
   font-size: 14px;
 }
+.bContent__eFormMainInput p {
+  margin: 0 0 1em 0;
+}
+.bContent__eFormMainInput p:last-child {
+  margin: 0;
+}
 .bContent__eFormHint {
   font-size: 14px;
   line-height: 14px;
@@ -119,7 +125,7 @@ body {
 }
 .bContent__eTab {
   display: none;
-  margin: 0 auto;
+  margin: 0 auto 29px auto;
   width: 900px;
 }
 .bContent__eTabText {
