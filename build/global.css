@@ -10,7 +10,7 @@ body {
   height: 100%;
   font-family: 'Courier New', serif;
   color: black;
-  min-width: 800px;
+  min-width: 980px;
 }
 .bHeader {
   height: 72px;
@@ -42,6 +42,7 @@ body {
 .bHeader__eMenuItem {
   color: black;
   text-decoration: none;
+  white-space: nowrap;
 }
 .bHeader__eMenuItem__mType_dropdown {
   padding: 0 11px 0 0;
@@ -69,7 +70,8 @@ body {
   margin-bottom: -29px;
 }
 .bContent__eMenu {
-  margin: 40px 0 0 52px;
+  margin: 40px auto 0 auto;
+  width: 800px;
 }
 .bContent__eMenuItem {
   font-size: 14px;
@@ -117,6 +119,8 @@ body {
 }
 .bContent__eTab {
   display: none;
+  margin: 0 auto;
+  width: 900px;
 }
 .bContent__eTabText {
   padding: 30px 52px 52px 52px;
@@ -124,7 +128,7 @@ body {
 }
 .bContent__eTabText p {
   margin: 0 0 1em 0;
-  max-width: 800px;
+  width: 900px;
 }
 .bContent__eTab__mState_active {
   display: block;
