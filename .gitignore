@@ -29,6 +29,7 @@ Desktop.ini
 
 dictionaries/*.json
 dist/js/*js
+marker_core/*.js
 
 node_modules/
 tmp/

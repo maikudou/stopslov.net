@@ -13,7 +13,7 @@ module.exports = (grunt)->
 
     grunt.initConfig 
         coffee:
-            compile:
+            app:
                 files: [
                     expand: true
                     cwd: 'dist/coffee/'
@@ -22,6 +22,14 @@ module.exports = (grunt)->
                     ext: '.js'
                 ]
 
+            marker:
+                files: [
+                    expand: true
+                    cwd: 'marker_core/'
+                    src: ['*.coffee']
+                    dest: 'marker_core/'
+                    ext: '.js'
+                ]
         jade:
             pages:
                 cwd: 'dist/pages/'
@@ -76,7 +84,11 @@ module.exports = (grunt)->
         watch:
             coffee:
                 files: ['dist/coffee/**/*.coffee']
-                tasks: ['coffee:compile']
+                tasks: ['coffee:app']
+
+            marker:
+                files: ['marker_core/marker.coffee']
+                tasks: ['coffee:marker']
 
             jade:
                 files: ['dist/pages/*.jade']
