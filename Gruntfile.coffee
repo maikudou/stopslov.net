@@ -47,7 +47,7 @@ module.exports = (grunt)->
         concat:
             production:
                 separator: '\n'
-                src: ['dist/js/libs/jquery.js', 'dist/js/libs/underscore.js', 'dist/js/libs/backbone.js', 'dist/js/words.js', 'dist/js/analytics.js', 'dist/js/app.js']
+                src: ['dist/js/libs/jquery.js', 'dist/js/libs/rangy-core.js', 'dist/js/libs/rangy-selectionsaverestore.js', 'dist/js/libs/underscore.js', 'dist/js/libs/backbone.js', 'dist/js/words.js', 'dist/js/analytics.js', 'dist/js/app.js']
                 dest: 'build/global.js'
 
         copy:
@@ -138,7 +138,6 @@ module.exports = (grunt)->
         stream.on 'end', ->
             #console.log(affixObject)
             fs.writeFileSync path.join(data.dest, data.src+data.ext), JSON.stringify(affixObject, null, '    ')
-            
             done true
 
         affixObject = {}
@@ -153,9 +152,9 @@ module.exports = (grunt)->
                 lineArray = line.split(' ')
 
                 return if lineArray[2] == 'Y'
-                
+
                 lineArray.shift()
-                lineIndex = lineArray.shift()                
+                lineIndex = lineArray.shift()
 
                 affixObject[lineIndex] = {} unless affixObject[lineIndex]?
 
@@ -163,7 +162,7 @@ module.exports = (grunt)->
 
                 affixObject[lineIndex][lineString] = [] unless affixObject[lineIndex][lineString]?
 
-                affixObject[lineIndex][lineString].push lineArray 
+                affixObject[lineIndex][lineString].push lineArray
 
 
     grunt.registerTask 'dicToJson', 'Processing OpenOffice dictionary file to JSON', ->
@@ -173,8 +172,7 @@ module.exports = (grunt)->
         stream = fs.createReadStream path.join data.cwd, data.src
         stream.on 'end', ->
             #console.log(affixObject)
-            fs.writeFileSync path.join(data.dest, data.src+data.ext), JSON.stringify(dicObject, null, '    ')
-            
+            fs.writeFileSync path.join(data.dest, data.src+data.ext), JSON.stringify(dicObject, null, '    ')            
             done true
 
         dicObject = {}
@@ -188,7 +186,7 @@ module.exports = (grunt)->
             unless line == ''
                 lineArray = line.split('/')
 
-                lineIndex = lineArray.shift()                
+                lineIndex = lineArray.shift()
 
                 dicObject[lineIndex] = {} unless dicObject[lineIndex]?
 
@@ -196,5 +194,5 @@ module.exports = (grunt)->
                     dicObject[lineIndex] = null
                     return false
 
-                dicObject[lineIndex] = lineArray[0] 
+                dicObject[lineIndex] = lineArray[0]
 

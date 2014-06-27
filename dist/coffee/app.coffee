@@ -63,13 +63,17 @@ SSN.App = Backbone.Model.extend
             @buildRegexp()
 
     processContent: (content)->
+        #removing style tags
+        content = content.replace(/\s+style=['\"][^'\"]+['\"]/gi, '')
+
+        content = content.replace(/^(\s*)(\S+)(.*)/gi, '$2$3').replace(/(\.*)(\S+)(\s*)$/gi, '$1$2')
+        content = content.replace(/(<span class="bStopWord">)([a-я ]*|[^<]*<span id="selectionBoundary[^<]+<\/span>[a-я ]*)(<\/span>)/gi, '$2')
         content = ' ' + content + ' ' #TODO DIRTY HACK
         content = content.replace(/[\f\n\r]/gi, '$& ') #TODO DIRTY HACK
         content = content.replace(@get('regexp'), '$1<span class="bStopWord">$2</span>$3')
         content = content.replace(/([\f\n\r]) /gi, '$&') #TODO DIRTY HACK
         content = content.replace(/[\f\n\r]/gi, '<br/>')
         @output.update content
-
     save: ->
         localStorage.setItem 'userStopWords', JSON.stringify @get('stopWords')
 
@@ -99,7 +103,9 @@ SSN.Form = Backbone.View.extend
         'click .jsWord': 'removeWord'
 
     changeContent: ->
-        @trigger 'change:content', @$input.val()
+        selection=rangy.saveSelection(selection)
+        @trigger 'change:content', @$input.html()
+        rangy.restoreSelection(selection)
 
     selectTab: (tabName)->
         index = @$tabs.closest('#'+tabName).index('.bContent__eTab')
@@ -132,7 +138,7 @@ SSN.Form = Backbone.View.extend
                 action: 'close'
                 label: 'StopList'
 
-        return false
+        e.preventDefault()
 
     renderWords: ->
         words = _.map @model.get('stopWords'), (word)->
@@ -171,7 +177,7 @@ SSN.Form = Backbone.View.extend
 
 SSN.Output = Backbone.View.extend
     initialize: ->
-        @setElement $('.bContent__eOutputText')[0]
+        @setElement $('#mainInput')[0]
 
     events:
         'keyup #mainInput': 'processContent'
