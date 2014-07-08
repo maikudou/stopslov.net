@@ -40,7 +40,7 @@ SSN.App = Backbone.Model.extend
                                     wordForms.push word.replace(replaceRegexp, variant[0])
 
             return word.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/gi, "\\$&");
-        ).join('|')+wordForms.join('|')+')([^а-яА-Я\\-]|\\s)'
+        ).join('|')+'|'+wordForms.join('|')+')([^а-яА-Я\\-]|\\s)'
 
         @set 'regexp', new RegExp(regexp, 'gi')
 
