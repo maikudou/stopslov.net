@@ -2,44 +2,68 @@ html {
     margin: 0;
     padding: 0;
     height: 100%;
+    width: 100%;
     background: white;
 }
 body {
     margin: 0;
     padding: 0;
     height: 100%;
+    width: 100%;
     font-family: 'Courier New', serif;
     color: black;
-    min-width: 980px;
+}
+
+.bLayout {
+    width: 100%;
+    height: 100%;
+    display: table;
+    &__eRow {
+        display: table-row;
+    }
+    &__eWrapper {
+        display: table-cell;
+        width: 100%;
+        vertical-align: top;
+        &.mFooter {
+            height: 29px;
+        }
+    }
 }
 
 .bHeader {
-    height: 72px;
+    min-height: 32px;
+    padding: 20px 52px;
     border-bottom: 1px solid rgb(229,229,229);
     background: rgb(241,241,241);
+    overflow: hidden;
 
     &__eTitle {
-        line-height: 74px;
-        height: 72px;
         float: left;
-        margin: 0 0 0 52px;
-        font-size: 30px;
-        font-weight: normal;
+
+        &Text {
+            display: inline-block;
+            margin: 0 26px 0 0;
+            line-height: 32px;
+            font-size: 30px;
+            font-weight: normal;
+            vertical-align: top;
+        }
     }
 
     &__eFBLike {
-        float: left;
-        line-height: 20px;
-        padding-left: 26px;
-        padding-top: 28px;
-        height: 45px;
+        display: inline-block;
+        line-height: 28px;
+        height: 32px;
+        vertical-align: top;
     }
 
     &__eMenu {
-        text-align: right;
-        line-height: 74px;
-        height: 72px;
-        margin: 0 32px 0 0;
+        display: block;
+        float: right;
+        line-height: 40px;
+        height: 32px;
+        margin: 0;
         font-size: 12px;
         &Item {
             color: black;
@@ -58,32 +82,36 @@ body {
 @footer_line_height: @footer_height - 1;
 
 .bFooter {
-    height: @footer_height;
+    min-height: @footer_height;
+    overflow: hidden;
     border-top: 1px solid rgb(229,229,229);
     background: rgb(241,241,241);
     font-size: 12px;
-    padding: 0 0 0 52px;
+    padding: 0 52px;
     line-height: @footer_line_height;
     clear: both;
     position: relative;
     &__eMetrika {
-        position: absolute;
+        position: relative;
         top: 5px;
-        right: 52px;
+        float: right;
         height: @footer_height - 5;
         line-height: @footer_line_height - 5;
     }
 }
 .bContent {
     min-height: 100%;
-    margin-bottom: -@footer_height - 1;
     &__eMenu {
         margin: 40px auto 0 auto;
-        width: 800px;
+        padding: 0 60px;
+        max-width: 900px;
+        box-sizing: padding-box;
+
         &Item {
             font-size: 14px;
             line-height: 14px;
             margin: 0 50px 0 0;
+            display: inline-block;
             &__mState_active {
                 color: black;
                 text-decoration: none;
@@ -103,7 +131,7 @@ body {
 
     &__eForm {
         box-sizing: border-box;
-        padding: 20px 44px;
+        padding: 20px 52px;
 
         &MainInput {
             resize: vertical;
@@ -132,7 +160,7 @@ body {
 
     &__eOutput {
         box-sizing: border-box;
-        padding: 20px 44px 20px 5px;
+        padding: 20px 52px 20px 5px;
         &Text {
             min-height: 130px;
             background: rgb(245, 245, 245);
@@ -146,7 +174,7 @@ body {
         display: none;
         margin: 0 auto;
         padding: 0 0 @footer_height 0;
-        width: 900px;
+        max-width: 900px;
         &Text {
             padding: 30px 52px 52px 52px;
             font-size: 13.2px;
@@ -235,4 +263,33 @@ body {
 }
 .bStopWord {
     background: yellow;
+}
+
+
+@media screen and (max-width: 500px) {
+    .bHeader {
+        padding: 10px 26px;
+    }
+    .bHeader__eMenu {
+        float: left;
+    }
+    .bContent__eWordsList {
+        padding: 10px 26px;
+    }
+    .bContent__eMenu {
+        padding-left: 26px;
+        padding-right: 26px;
+    }
+    .bContent__eForm {
+        padding-left: 26px;
+        padding-right: 26px;
+    }
+    .bContent__eTabText {
+        padding-left: 26px;
+        padding-right: 26px;
+    }
+    .bFooter {
+        padding-left: 26px;
+        padding-right: 26px;
+    }
 }

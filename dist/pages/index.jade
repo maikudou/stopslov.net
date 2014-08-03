@@ -3,6 +3,7 @@ html
     head
         title Стоп-слов нет
         meta(http-equiv="Content-Type", content="text/html; charset=utf-8")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
         link(href='global.css', rel='stylesheet')
         script(type="text/javascript", src="global.js")
         script.
@@ -13,93 +14,101 @@ html
               js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=487878381246644";
               fjs.parentNode.insertBefore(js, fjs);
             }(document, 'script', 'facebook-jssdk'));
+
     body
-        .bContent
-            header.bHeader
-                h1.bHeader__eTitle Стоп-слов нет
-                .fb-like.bHeader__eFBLike(data-href="https://www.facebook.com/stopslov.net", data-width="450", data-show-faces="false", data-send="false")
-                nav.bHeader__eMenu
-                    a.bHeader__eMenuItem.bHeader__eMenuItem__mType_dropdown#listOpener(href="#") Открыть список стоп-слов
+        .bLayout
+            .bLayout__eRow
+                .bLayout__eWrapper
+                    .bContent
+                        header.bHeader
+                            .bHeader__eTitle
+                                h1.bHeader__eTitleText Стоп-слов нет
+                                .fb-like.bHeader__eFBLike(data-href="https://www.facebook.com/stopslov.net", data-layout="button_count", data-action="like", data-show-faces="true", data-share="false")
 
-            .bContent__eWordsList Слова
+                            nav.bHeader__eMenu
+                                a.bHeader__eMenuItem.bHeader__eMenuItem__mType_dropdown#listOpener(href="#") Открыть список стоп-слов
 
-            nav.bContent__eMenu
-                a.bContent__eMenuItem.bContent__eMenuItem__mState_active(href="#") Маркер
-                a.bContent__eMenuItem(href="#about/words/") Про стоп-слова
-                a.bContent__eMenuItem(href="#about/service/") О сервисе
+                        .bContent__eWordsList Слова
 
-            .bContent__eTab.bContent__eTab__mState_active#ssnForm
-                form.bContent__eForm#mainForm
-                    div.bContent__eFormMainInput#mainInput(contentEditable="true")
-                    label.bContent__eFormHint Введите или скопируйте текст
+                        nav.bContent__eMenu
+                            a.bContent__eMenuItem.bContent__eMenuItem__mState_active(href="#") Маркер
+                            a.bContent__eMenuItem(href="#about/words/") Про стоп-слова
+                            a.bContent__eMenuItem(href="#about/service/") О сервисе
 
-            .bContent__eTab#aboutWords
-                .bContent__eTabText Стоп-слова &mdash; это слова, которые нельзя или не рекомендовано использовать
-                    br
-                    | в тексте. Они не несут никакого смысла и служат только балластом.
+                        .bContent__eTab.bContent__eTab__mState_active#ssnForm
+                            form.bContent__eForm#mainForm
+                                div.bContent__eFormMainInput#mainInput(contentEditable="true")
+                                label.bContent__eFormHint Введите или скопируйте текст
 
-            .bContent__eTab#aboutService
-                .bContent__eTabText
-                    p Мы&nbsp;делаем Stopslov.net вовсе не&nbsp;для проверки произведений классиков. Гении высказались, их&nbsp;творения навсегда запечатлены на&nbsp;бумаге и&nbsp;в&nbsp;файлах. Сервис полезен для написания чистых, информативных&nbsp;и, в&nbsp;большинстве своем, коммерческих текстов. Он&nbsp;для новых и&nbsp;еще неопубликованных материалов.
-                    p Маркер, инструмент для выявления словесного мусора, не&nbsp;работает по&nbsp;принципу типографа&nbsp;&mdash; не&nbsp;исправляет ошибки автоматически. С&nbsp;мыслью, которую автор стремится донести до&nbsp;читателей, так нельзя. Стопслов только рекомендует, указывая на&nbsp;возможно допущенные ошибки в&nbsp;тексте. Не&nbsp;в&nbsp;отдельных словах, не&nbsp;опечатки, а&nbsp;именно в&nbsp;тексте, выделяя целые слова и&nbsp;выражения. Оставить или удалить их&nbsp;&mdash; решать автору.
-                    p Стопслов.нет&nbsp;&mdash; сервис для написания чистых черновиков. Заготовок, которые проще окрашивать в&nbsp;нужные тона. Получив чистый черновой материал, в&nbsp;последующей подготовке публикаций не&nbsp;нужно ничего удалять, остается только раскрашивать под принятый в&nbsp;редакции формат. Не&nbsp;замусоренный черновик легче адаптировать под нужды издания или рекламного макета.
-                    p Стопслов помогает писать интерфейсные тексты. Особенно когда до&nbsp;посетителей важно донести информацию. Без лирики и&nbsp;заискивания.
-                    p Пользуясь сервисом, важно понимать, что он&nbsp;не&nbsp;требует, а&nbsp;только рекомендует. Финальное решение по&nbsp;тексту остается за&nbsp;автором. Хочется добавить в&nbsp;публикацию красок&nbsp;&mdash; сделайте это, но&nbsp;не&nbsp;забудьте обосновать.
-                    p Выделяя слова, маркер ориентируется на&nbsp;список стоп-слов по&nbsp;умолчанию. Сервис гибкий. Стандартный список можно изменить под свои нужды&nbsp;&mdash; удалив лишнее и&nbsp;добавив свое. Пока что списки сохраняются для каждого браузера. Чтобы вернуться к&nbsp;настройкам по&nbsp;умолчанию, нужно очистить кэш браузера. Для большего удобства мы&nbsp;добавим пользовательские профили.
+                        .bContent__eTab#aboutWords
+                            .bContent__eTabText Стоп-слова &mdash; это слова, которые нельзя или не рекомендовано использовать
+                                br
+                                | в тексте. Они не несут никакого смысла и служат только балластом.
 
-        footer.bFooter
-            | Идея:&nbsp;
-            a.bFooter__eLink(href="http://egerev.ru") Кирилл Егерев
-            |  |  Реализация:&nbsp;
-            a.bFooter__eLink(href="https://github.com/maikudou") Михаил Лабанов
-            |,&nbsp;
-            a.bFooter__eLink(href="http://nick-iv.me") Николай Иванушкин
+                        .bContent__eTab#aboutService
+                            .bContent__eTabText
+                                p Мы&nbsp;делаем Stopslov.net вовсе не&nbsp;для проверки произведений классиков. Гении высказались, их&nbsp;творения навсегда запечатлены на&nbsp;бумаге и&nbsp;в&nbsp;файлах. Сервис полезен для написания чистых, информативных&nbsp;и, в&nbsp;большинстве своем, коммерческих текстов. Он&nbsp;для новых и&nbsp;еще неопубликованных материалов.
+                                p Маркер, инструмент для выявления словесного мусора, не&nbsp;работает по&nbsp;принципу типографа&nbsp;&mdash; не&nbsp;исправляет ошибки автоматически. С&nbsp;мыслью, которую автор стремится донести до&nbsp;читателей, так нельзя. Стопслов только рекомендует, указывая на&nbsp;возможно допущенные ошибки в&nbsp;тексте. Не&nbsp;в&nbsp;отдельных словах, не&nbsp;опечатки, а&nbsp;именно в&nbsp;тексте, выделяя целые слова и&nbsp;выражения. Оставить или удалить их&nbsp;&mdash; решать автору.
+                                p Стопслов.нет&nbsp;&mdash; сервис для написания чистых черновиков. Заготовок, которые проще окрашивать в&nbsp;нужные тона. Получив чистый черновой материал, в&nbsp;последующей подготовке публикаций не&nbsp;нужно ничего удалять, остается только раскрашивать под принятый в&nbsp;редакции формат. Не&nbsp;замусоренный черновик легче адаптировать под нужды издания или рекламного макета.
+                                p Стопслов помогает писать интерфейсные тексты. Особенно когда до&nbsp;посетителей важно донести информацию. Без лирики и&nbsp;заискивания.
+                                p Пользуясь сервисом, важно понимать, что он&nbsp;не&nbsp;требует, а&nbsp;только рекомендует. Финальное решение по&nbsp;тексту остается за&nbsp;автором. Хочется добавить в&nbsp;публикацию красок&nbsp;&mdash; сделайте это, но&nbsp;не&nbsp;забудьте обосновать.
+                                p Выделяя слова, маркер ориентируется на&nbsp;список стоп-слов по&nbsp;умолчанию. Сервис гибкий. Стандартный список можно изменить под свои нужды&nbsp;&mdash; удалив лишнее и&nbsp;добавив свое. Пока что списки сохраняются для каждого браузера. Чтобы вернуться к&nbsp;настройкам по&nbsp;умолчанию, нужно очистить кэш браузера. Для большего удобства мы&nbsp;добавим пользовательские профили.
+
+            .bLayout__eRow
+                .bLayout__eWrapper.mFooter
+                    footer.bFooter
+                        | Идея:&nbsp;
+                        a.bFooter__eLink(href="http://egerev.ru") Кирилл Егерев
+                        |  |  Реализация:&nbsp;
+                        a.bFooter__eLink(href="https://github.com/maikudou") Михаил Лабанов
+                        |,&nbsp;
+                        a.bFooter__eLink(href="http://nick-iv.me") Николай Иванушкин
 
 
-            // Yandex.Metrika informer
+                        // Yandex.Metrika informer
 
-            a.bFooter__eMetrika(
-                href="http://metrika.yandex.ru/stat/?id=22464010&from=informer",
-                target="_blank",
-                rel="nofollow")
-                img(
-                    src="//bs.yandex.ru/informer/22464010/1_0_FFFFFFFF_FFFFFFFF_0_uniques",
-                    style="width:80px; height:15px; border:0;",
-                    alt="Яндекс.Метрика",
-                    title="Яндекс.Метрика: данные за сегодня (уникальные посетители)",
-                    onclick="try{Ya.Metrika.informer({i:this,id:22464010,lang:'ru'});return false}catch(e){}")
+                        a.bFooter__eMetrika(
+                            href="http://metrika.yandex.ru/stat/?id=22464010&from=informer",
+                            target="_blank",
+                            rel="nofollow")
+                            img(
+                                src="//bs.yandex.ru/informer/22464010/1_0_FFFFFFFF_FFFFFFFF_0_uniques",
+                                style="width:80px; height:15px; border:0;",
+                                alt="Яндекс.Метрика",
+                                title="Яндекс.Метрика: данные за сегодня (уникальные посетители)",
+                                onclick="try{Ya.Metrika.informer({i:this,id:22464010,lang:'ru'});return false}catch(e){}")
 
-            // /Yandex.Metrika informer
+                        // /Yandex.Metrika informer
 
-            // Yandex.Metrika counter
-            script.
-                (function (d, w, c) {
-                   (w[c] = w[c] || []).push(function() {
-                       try {
-                           w.yaCounter22464010 = new Ya.Metrika({id:22464010,
-                                   webvisor:true,
-                                   clickmap:true,
-                                   trackLinks:true,
-                                   accurateTrackBounce:true});
-                       } catch(e) { }
-                   });
+                        // Yandex.Metrika counter
+                        script.
+                            (function (d, w, c) {
+                               (w[c] = w[c] || []).push(function() {
+                                   try {
+                                       w.yaCounter22464010 = new Ya.Metrika({id:22464010,
+                                               webvisor:true,
+                                               clickmap:true,
+                                               trackLinks:true,
+                                               accurateTrackBounce:true});
+                                   } catch(e) { }
+                               });
 
-                   var n = d.getElementsByTagName("script")[0],
-                       s = d.createElement("script"),
-                       f = function () { n.parentNode.insertBefore(s, n); };
-                   s.type = "text/javascript";
-                   s.async = true;
-                   s.src = (d.location.protocol == "https:" ? "https:" : "http:") + "//mc.yandex.ru/metrika/watch.js";
+                               var n = d.getElementsByTagName("script")[0],
+                                   s = d.createElement("script"),
+                                   f = function () { n.parentNode.insertBefore(s, n); };
+                               s.type = "text/javascript";
+                               s.async = true;
+                               s.src = (d.location.protocol == "https:" ? "https:" : "http:") + "//mc.yandex.ru/metrika/watch.js";
 
-                   if (w.opera == "[object Opera]") {
-                       d.addEventListener("DOMContentLoaded", f, false);
-                   } else { f(); }
+                               if (w.opera == "[object Opera]") {
+                                   d.addEventListener("DOMContentLoaded", f, false);
+                               } else { f(); }
 
-                })(document, window, "yandex_metrika_callbacks");
+                            })(document, window, "yandex_metrika_callbacks");
 
-            noscript
-                div
-                    img(src="//mc.yandex.ru/watch/22464010", style="position:absolute; left:-9999px;", alt="")
+                        noscript
+                            div
+                                img(src="//mc.yandex.ru/watch/22464010", style="position:absolute; left:-9999px;", alt="")
 
-            // /Yandex.Metrika counter
+                        // /Yandex.Metrika counter
 
