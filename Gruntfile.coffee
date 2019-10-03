@@ -11,7 +11,7 @@ module.exports = (grunt)->
     fs       = require 'fs'
 
 
-    grunt.initConfig 
+    grunt.initConfig
         coffee:
             app:
                 files: [
@@ -80,7 +80,7 @@ module.exports = (grunt)->
                 root: 'build'
                 index: 'index.html'
                 404: 'build/404.html'
-    
+
         watch:
             coffee:
                 files: ['dist/coffee/**/*.coffee']
@@ -108,7 +108,7 @@ module.exports = (grunt)->
 
 
     grunt.registerMultiTask 'jade', 'Compile jade to HTML', ->
-        jade = require 'jade'
+        jade = require 'pug'
 
         for file in this.filesSrc
             filepath = path.join(@data.cwd, file)
@@ -172,7 +172,7 @@ module.exports = (grunt)->
         stream = fs.createReadStream path.join data.cwd, data.src
         stream.on 'end', ->
             #console.log(affixObject)
-            fs.writeFileSync path.join(data.dest, data.src+data.ext), JSON.stringify(dicObject, null, '    ')            
+            fs.writeFileSync path.join(data.dest, data.src+data.ext), JSON.stringify(dicObject, null, '    ')
             done true
 
         dicObject = {}
